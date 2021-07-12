@@ -20,6 +20,7 @@ class GameObject:
         if self.model != None:
             modelObj = self.app.loader.loadModel(self.model)
             modelObj.copyTo(self.node)
+            # I'm not really sure what that line is doing. :D
             self.app.render_pipeline.prepare_scene(modelObj)
     
     def update():
