@@ -17,9 +17,18 @@ class App(Application):
         
 app = App("Test", True)
 
+import src.Console as Console
+cmd = Console.Command("force")
+console = Console.Console(app, [cmd])
+
 go = GameObject(app, "Test", "terrain.bam")
 dynamic = GameObject(app, "dynamic", "radioactive.bam", mass=10)
 dynamic.node.setPos(0, 0, 10)
+
+def force():
+    dynamic.node.node().setLinearVelocity(Vec3(5, 0, dynamic.node.node().getLinearVelocity().z))
+    
+cmd.execute = force
 
 my_light = PointLight()
 my_light.energy = 5000
