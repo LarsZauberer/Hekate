@@ -49,6 +49,8 @@ class Application(ShowBase):
         # Camera Lense change
         self.camLens.set_fov(90)
         
+        self.objectRegistry = []
+        
         if debug:
             from rpcore.util.movement_controller import MovementController
             self.controller = MovementController(self)
