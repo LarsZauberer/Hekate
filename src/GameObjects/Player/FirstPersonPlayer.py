@@ -12,6 +12,7 @@ class FirstPersonPlayer(DynamicObject):
         self.name = "Player"
         
         self.speed = 0.5
+        self.preJumpSpeed = Vec3(0, 0, 0)
 
         h = 1.75
         w = 0.4
@@ -60,6 +61,32 @@ class FirstPersonPlayer(DynamicObject):
         
         if self.character.isOnGround():
             self.character.setLinearMovement(speed, True)
+            self.preJumpSpeed = speed
+        else:
+            """print(dir(self.character))
+            newSpeed = self.preJumpSpeed
+            if self.preJumpSpeed.x == 0:
+                newSpeed.x = speed.x*0.5
+            if self.preJumpSpeed.y == 0:
+                newSpeed.y = speed.y*0.5
+            print(newSpeed)
+            self.character.setLinearMovement(newSpeed, True)"""
+            """maxAirVel = self.speed*0.3
+            newSpeed = self.preJumpSpeed*0.3
+            if speed.x != 0:
+                newSpeed.x = speed.x*0.7
+            if speed.y != 0:
+                newSpeed.y = speed.y*0.7
+            if newSpeed.x > self.preJumpSpeed.x*0.3:
+                newSpeed.x = self.preJumpSpeed.x*0.3
+            if newSpeed.y > self.preJumpSpeed.y*0.3:
+                newSpeed.y = self.preJumpSpeed.y*0.3"""
+            """newSpeed = self.preJumpSpeed + speed
+            if newSpeed > 0.5:
+                newSpeed.normalize()
+                newSpeed *= 0.5
+            self.character.setLinearMovement(newSpeed, True)"""
+        
 
         
         self.app.win.movePointer(0, int(self.app.win.getXSize()/2), int(self.app.win.getYSize()/2))
