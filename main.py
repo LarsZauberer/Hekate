@@ -40,18 +40,4 @@ radioLight.energy = 10000
 radioLight.color = (0, 255, 0)
 app.render_pipeline.add_light(radioLight)
 
-# dynamic.node.setMaterial(Material)
-
-def spawnDynamics():
-    while True:
-        time.sleep(0.5)
-        dynamic = GameObject(app, "dynamic", "radioactive.bam", mass=10, collisionShape=BulletBoxShape(Vec3(1, 1, 1)))
-        dynamic.node.setPos(0, 0, 5)
-
-        dynamic.node.node().setLinearVelocity(Vec3(50, 0, 0))
-
-t = threading.Thread(target=spawnDynamics)
-t.start()
-
-
 app.run()
