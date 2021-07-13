@@ -2,6 +2,7 @@ from direct.showbase.ShowBase import ShowBase
 from rpcore import RenderPipeline
 from panda3d.core import load_prc_file_data, Vec3, BitMask32
 from panda3d.bullet import BulletWorld
+from pathlib import Path
 
 # Plugins for packaging
 from rpplugins import ao, bloom, clouds, color_correction, dof, env_probes, forward_shading, fxaa, motion_blur, pssm, scattering, skin_shading, sky_ao, smaa, ssr, volumetrics, vxgi
@@ -25,6 +26,7 @@ from rpplugins.vxgi import plugin
 
 # Sorcery Engine
 from src.ModelLoader import ModelLoader
+from src.MapLoader import MapLoader
 
 class Application(ShowBase):
     
@@ -61,6 +63,12 @@ class Application(ShowBase):
         else:
             # TODO: Normal Player
             pass
+        
+        
+        # Finished -> Loading Map
+        maps = {"test": Path("Content/test.json")}
+        self.mapLoader = MapLoader(self, maps)
+        self.mapLoader.loadMap("test")
     
     def update(self, task):
         # dt = globalClock.getDt()

@@ -1,7 +1,8 @@
 from src.GameObjects.GameObject import GameObject
 from panda3d.bullet import BulletBoxShape
 from panda3d.bullet import BulletRigidBodyNode
-from panda3d.core import Vec3, Actor
+from panda3d.core import Vec3
+from direct.actor.Actor import Actor
 from pathlib import Path
 
 
