@@ -2,7 +2,13 @@
     "mapData":
         [
             {"id": 0, "data": {
-                "model": "red.bam"
+                "model": "red.bam",
+                "x": 5
+            }},
+            {"id": 1, "data": {
+                "model": "red.bam",
+                "x": 8,
+                "y": 8
             }}
         ]
 }

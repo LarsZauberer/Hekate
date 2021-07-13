@@ -7,27 +7,19 @@ from pathlib import Path
 
 
 class DynamicObject(GameObject):
-    def __init__(self, app, name="undefined", model=None, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=0, sy=0, sz=0, collisionShape=BulletBoxShape(Vec3(0.5, 0.5, 0.5)), mass=0, animations={}):
+    def __init__(self, app, name="undefined", model=None, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, collisionShape=BulletBoxShape(Vec3(0.5, 0.5, 0.5)), mass=0, animations={}):
         self.app = app
         self.name = name
-        if model is not None:
-            self.model = Path("Content") / Path(model)
-        else:
-            self.model = model
+        self.collisionShape = collisionShape
         self.animations = animations
         
-        # Creating the parent object
-        node = BulletRigidBodyNode(name)
-        node.setMass(mass)
-        node.addShape(collisionShape)
-        self.node = self.app.render.attachNewNode(node)
-        self.app.world.attachRigidBody(node)
+        self._createMainNode(mass)
+        self.transform(x, y, z, rx, ry, rz, sx, sy, sz)
         
-        self.visNode = Actor(self.model. self.animations)
-        self.visNode.reparent_to(self.node)
+        # ? Actor doesn't work
+        # self.visNode = Actor(self.model, self.animations)
         
-        # Add the object to the object Registry
-        self.app.objectRegistry.append(self)
+        self._loadModel(model, self.node)
         
         # Add update task to app
         self.app.taskMgr.add(self.update, f"{name}_update")
