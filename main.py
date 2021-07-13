@@ -19,9 +19,9 @@ class App(Application):
             dynamic.node.node().setLinearVelocity(Vec3(0, 0, 10))
         return task.cont
         
-app = App("Test", True)
+app = App("Test", False)
 
-go = GameObject(app, "Test", "terrain.bam", collisionShape=BulletBoxShape(Vec3(15, 10, 1)))
+go = GameObject(app, "Test", "terrain.bam", collisionShape=BulletBoxShape(Vec3(15, 10, 1)), sx=10, sy=10)
 go2 = GameObject(app, "Test2", "terrain.bam", collisionShape=BulletBoxShape(Vec3(15, 15, 1)))
 go2.node.setPos(10, 0, 0)
 go2.node.setR(90)

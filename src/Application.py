@@ -53,6 +53,9 @@ class Application(ShowBase):
         
         self.objectRegistry = []
         
+        self.keys = []
+        self.mv = self.mouseWatcherNode
+        
         if debug:
             from rpcore.util.movement_controller import MovementController
             self.controller = MovementController(self)
@@ -61,8 +64,20 @@ class Application(ShowBase):
                 Vec3(-39.7285499573, -14.6770210266, 0.0))
             self.controller.setup()
         else:
-            # TODO: Normal Player
-            pass
+            from src.GameObjects.Player.FirstPersonPlayer import FirstPersonPlayer
+            self.accept("w", self.keys.append, ["w"])
+            self.accept("w-up", self.keys.remove, ["w"])
+            self.accept("s", self.keys.append, ["s"])
+            self.accept("s-up", self.keys.remove, ["s"])
+            self.accept("d", self.keys.append, ["d"])
+            self.accept("d-up", self.keys.remove, ["d"])
+            self.accept("a", self.keys.append, ["a"])
+            self.accept("a-up", self.keys.remove, ["a"])
+            
+            self.disable_mouse()
+            player = FirstPersonPlayer(self)
+            self.accept('space', player.doJump)
+            self.accept('c', player.doCrouch)
         
         
         # Finished -> Loading Map
