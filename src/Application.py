@@ -2,6 +2,7 @@ from direct.showbase.ShowBase import ShowBase
 from rpcore import RenderPipeline
 from panda3d.core import load_prc_file_data, Vec3, BitMask32
 from panda3d.bullet import BulletWorld
+from direct.gui.DirectGui import DirectEntry
 from pathlib import Path
 
 # Plugins for packaging
@@ -63,6 +64,7 @@ class Application(ShowBase):
                 Vec3(-17.2912578583, -13.290019989, 6.88211250305),
                 Vec3(-39.7285499573, -14.6770210266, 0.0))
             self.controller.setup()
+            self.player = None
         else:
             from src.GameObjects.Player.FirstPersonPlayer import FirstPersonPlayer
             self.accept("w", self.keys.append, ["w"])
@@ -77,9 +79,10 @@ class Application(ShowBase):
             self.accept("space-up", self.keys.remove, ["space"])
             
             self.disable_mouse()
-            player = FirstPersonPlayer(self)
+            self.player = FirstPersonPlayer(self)
             # self.accept('space', player.doJump)
             # self.accept('c', player.doCrouch)
+            self.accept("1", self.show_Console)
         
         
         # Finished -> Loading Map
@@ -92,4 +95,15 @@ class Application(ShowBase):
         self.world.doPhysics(1)
         
         return task.cont
+    
+    def show_Console(self):
+        self.entry = DirectEntry(text = "", scale=.05, command=self.execute,
+        initialText="", numLines = 1, focus=1, pos=Vec3(0.8, 0, -0.95))
+    
+    def execute(self, cmd):
+        cmd = cmd.lower()
+        self.entry.destroy()
+        if "noclip" in cmd:
+            if self.player is not None:
+                self.player.noClip = not self.player.noClip
         
