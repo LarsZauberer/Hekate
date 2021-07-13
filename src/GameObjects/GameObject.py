@@ -31,10 +31,3 @@ class GameObject:
         else:
             self.model = None
         
-        # Adding the update to the tasks of the engine
-        self.app.taskMgr.add(self.update, f"{name} update")
-    
-    def update(self, task):
-        print(f"Hello, I'm {self.name}")
-        return task.cont
-        
