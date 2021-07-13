@@ -73,11 +73,13 @@ class Application(ShowBase):
             self.accept("d-up", self.keys.remove, ["d"])
             self.accept("a", self.keys.append, ["a"])
             self.accept("a-up", self.keys.remove, ["a"])
+            self.accept("space", self.keys.append, ["space"])
+            self.accept("space-up", self.keys.remove, ["space"])
             
             self.disable_mouse()
             player = FirstPersonPlayer(self)
-            self.accept('space', player.doJump)
-            self.accept('c', player.doCrouch)
+            # self.accept('space', player.doJump)
+            # self.accept('c', player.doCrouch)
         
         
         # Finished -> Loading Map
