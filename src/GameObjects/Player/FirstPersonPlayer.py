@@ -15,8 +15,7 @@ class FirstPersonPlayer(DynamicObject):
         shape = BulletCapsuleShape(w, h - 2 * w, ZUp)
         shape2 = BulletBoxShape((1, 1, 1))
 
-        super().__init__(app, name="Player", collisionShape=shape2, x=-10, y=-10, z=14, mass=10, model="Block.bam")
-        # self.node.node().setLinearFactor((1, 0, 0))
+        super().__init__(app, name="Player", collisionShape=shape, x=-10, y=-10, z=14, mass=10, model="Block.bam")
     
     def update(self, task):
         super().update(task)
@@ -107,4 +106,5 @@ class FirstPersonPlayer(DynamicObject):
         return task.cont
     
     def isGrounded(self):
-        return round(self.node.node().getLinearVelocity().z, 0) == 0
+        result = self.app.world.contactTest(self.node.node())
+        return result.getNumContacts() != 0
