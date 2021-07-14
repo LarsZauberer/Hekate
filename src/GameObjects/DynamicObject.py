@@ -13,6 +13,9 @@ class DynamicObject(GameObject):
         self.collisionShape = collisionShape
         self.animations = animations
         
+        # Collision
+        self.touching = []
+        
         self._createMainNode(mass)
         self.transform(x, y, z, rx, ry, rz, sx, sy, sz)
         
@@ -25,4 +28,41 @@ class DynamicObject(GameObject):
         self.app.taskMgr.add(self.update, f"{name}_update")
     
     def update(self, task):
-         return task.cont
+        self._handleCollision()
+        return task.cont
+    
+    def onCollisionEnter(self, otherGameObject):
+        pass
+    
+    def onCollisionStay(self, otherGameObject):
+        pass
+    
+    def onCollisionExit(self, otherGameObject):
+        pass
+    
+    def _handleCollision(self):
+        # Collision Testing
+        result = self.app.world.contactTest(self.node.node())
+        
+        # Variables Collision
+        newTouching = self.touching.copy()
+        thisTimeTouching = []
+        
+        for contact in result.getContacts():
+            # Check if touching for the first time
+            if contact.getNode1() not in self.touching:
+                self.onCollisionEnter(contact.getNode1())
+                newTouching.append(contact.getNode1())
+            thisTimeTouching.append(contact.getNode1())
+        self.touching = newTouching.copy()
+        # Remove all exited objects
+        exited = list(set(self.touching) - set(thisTimeTouching))
+        for i in exited:
+            self.touching.remove(i)
+        # Call all staying objects
+        for i in self.touching:
+            self.onCollisionStay(i)
+        # Call all exited objects
+        for i in exited:
+            self.onCollisionExit(i)
+            
