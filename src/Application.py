@@ -82,7 +82,7 @@ class Application(ShowBase):
             self.player = FirstPersonPlayer(self)
             # self.accept('space', player.doJump)
             # self.accept('c', player.doCrouch)
-            self.accept("1", self.show_Console)
+            self.accept("tab", self.show_Console)
         
         
         # Finished -> Loading Map
@@ -106,4 +106,13 @@ class Application(ShowBase):
         if "noclip" in cmd:
             if self.player is not None:
                 self.player.noClip = not self.player.noClip
-        
+        elif "show triggers" in cmd:
+            for i in self.objectRegistry:
+                from src.GameObjects.TriggerBox import TriggerBox
+                if issubclass(type(i), TriggerBox):
+                    if cmd[-1] == "1":
+                        i.modelObj.show()
+                    elif cmd[-1] == "0":
+                        i.modelObj.hide()
+        else:
+            print("No Command found")
