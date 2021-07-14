@@ -42,6 +42,7 @@ class Application(ShowBase):
 
         # Construct and create the pipeline
         self.render_pipeline = RenderPipeline()
+        self.render_pipeline.set_loading_screen_image("Content/tree.png")
         self.render_pipeline.create(self)
         
         self.world = BulletWorld()
