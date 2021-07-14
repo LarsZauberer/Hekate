@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 class DynamicObject(GameObject):
-    def __init__(self, app, name="undefined", model=None, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, collisionShape=BulletBoxShape(Vec3(0.5, 0.5, 0.5)), mass=0, animations={}):
+    def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, collisionShape=BulletBoxShape(Vec3(0.5, 0.5, 0.5)), mass=0, animations={}):
         self.app = app
         self.name = name
         self.collisionShape = collisionShape
@@ -17,6 +17,7 @@ class DynamicObject(GameObject):
         self.touching = []
         
         self._createMainNode(mass)
+        self.node.setTag("ground", str(ground))
         self.transform(x, y, z, rx, ry, rz, sx, sy, sz)
         
         # ? Actor doesn't work

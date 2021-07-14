@@ -17,7 +17,7 @@ class FirstPersonPlayer(DynamicObject):
         
         self.noClip = False
 
-        super().__init__(app, name="Player", collisionShape=shape, x=-10, y=-10, z=14, mass=10, model="Block.bam")
+        super().__init__(app, name="Player", collisionShape=shape2, x=-10, y=-10, z=14, mass=10, model="Block.bam")
     
     def update(self, task):
         super().update(task)
@@ -108,4 +108,7 @@ class FirstPersonPlayer(DynamicObject):
     
     def isGrounded(self):
         result = self.app.world.contactTest(self.node.node())
-        return result.getNumContacts() != 0
+        for i in result.getContacts():
+            if i.getNode1().getTag("ground") == "True":
+                return True
+        return False

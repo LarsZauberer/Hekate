@@ -22,6 +22,7 @@ class TriggerBox(DynamicObject):
         self.node = self.app.render.attachNewNode(ghost)
         self.node.setPos(0, 0, 0)
         self.node.setCollideMask(BitMask32(0x0f))
+        self.node.setTag("ground", "False")
 
         self.app.world.attachGhost(ghost)
         self.transform(x, y, z, rx, ry, rz, sx, sy, sz)
