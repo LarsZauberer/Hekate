@@ -14,14 +14,14 @@ import time
 class App(Application):
     def update(self, task):
         super().update(task)
-        radioLight.pos = (dynamic.node.getPos().x, dynamic.node.getPos().y, dynamic.node.getPos().z + 2)
+        """ radioLight.pos = (dynamic.node.getPos().x, dynamic.node.getPos().y, dynamic.node.getPos().z + 2)
         if dynamic.node.getPos().z < 2:
-            dynamic.node.node().setLinearVelocity(Vec3(0, 0, 10))
+            dynamic.node.node().setLinearVelocity(Vec3(0, 0, 10)) """
         return task.cont
         
 app = App("Test", False)
 
-go = GameObject(app, "Test", "terrain.bam", collisionShape=BulletBoxShape(Vec3(15, 10, 1)), sx=10, sy=10, ground=True)
+""" go = GameObject(app, "Test", "terrain.bam", collisionShape=BulletBoxShape(Vec3(15, 10, 1)), sx=10, sy=10, ground=True)
 go2 = GameObject(app, "Test2", "terrain.bam", collisionShape=BulletBoxShape(Vec3(15, 15, 1)))
 go2.node.setPos(10, 0, 0)
 go2.node.setR(90)
@@ -38,6 +38,6 @@ app.render_pipeline.add_light(my_light)
 radioLight = PointLight()
 radioLight.energy = 10000
 radioLight.color = (0, 255, 0)
-app.render_pipeline.add_light(radioLight)
+app.render_pipeline.add_light(radioLight) """
 
 app.run()

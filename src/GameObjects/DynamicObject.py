@@ -5,12 +5,14 @@ from panda3d.core import Vec3
 from direct.actor.Actor import Actor
 from pathlib import Path
 
+from src.CollisionShapes import shapes
+
 
 class DynamicObject(GameObject):
-    def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, collisionShape=BulletBoxShape(Vec3(0.5, 0.5, 0.5)), mass=0, animations={}):
+    def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, collisionShapeClass=1, collisionShapeArgs=[(1, 1, 1)], mass=0, animations={}):
         self.app = app
         self.name = name
-        self.collisionShape = collisionShape
+        self.collisionShape = shapes[collisionShapeClass](*collisionShapeArgs)
         self.animations = animations
         
         # Collision
