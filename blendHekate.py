@@ -9,6 +9,12 @@ class MyProperties(bpy.types.PropertyGroup):
         default="",
         maxlen=1024,
         subtype='DIR_PATH')
+    importObjectPath: bpy.props.StringProperty(
+        name = "",
+        description="Choose a directory:",
+        default="",
+        maxlen=1024,
+        subtype='FILE_PATH')
 
 class Hekate(bpy.types.Panel):
     bl_label = "Hekate"
@@ -24,10 +30,16 @@ class Hekate(bpy.types.Panel):
         
         # Save ID for objects
         layout.label(text="Save Object ID")
-        layout.prop(mytool, "id", text="Test")
+        layout.prop(mytool, "id", text="Class ID")
         
         row = layout.row()
         row.operator("hekate.save_id")
+        
+        # Import Objects
+        layout.label(text="Import Objects")
+        layout.prop(mytool, "importObjectPath", text="Import Directory")
+        row = layout.row()
+        row.operator("hekate.import_objects")
         
         # General Operations
         layout.label(text="General Operations")
@@ -62,6 +74,24 @@ class SaveMapOperator(bpy.types.Operator):
             datadata["x"] = i.location.x
             datadata["y"] = i.location.y
             datadata["z"] = i.location.z
+            datadata["rx"] = i.rotation_euler.x
+            datadata["ry"] = i.rotation_euler.y
+            datadata["rz"] = i.rotation_euler.z
+            datadata["sx"] = i.scale.x
+            datadata["sy"] = i.scale.y
+            datadata["sz"] = i.scale.z
+            
+            # Model Data
+            try:
+                datadata["model"] = i["model"]
+            except Exception:
+                pass
+            
+            # Mass
+            try:
+                datadata["mass"] = i["mass"]
+            except Exception:
+                pass
             
             # Assemble
             objectData["data"] = datadata
@@ -73,12 +103,30 @@ class SaveMapOperator(bpy.types.Operator):
         return {"FINISHED"}
 
 
+# Import objects from path and save to custom data
+class ImportObjects(bpy.types.Operator):
+    bl_label = "Import Objects"
+    bl_idname = "hekate.import_objects"
+    
+    def execute(self, context):
+        mytool = context.scene.my_tool
+        with bpy.data.libraries.load(mytool.importObjectPath) as (data_from, data_to):
+            data_to.objects = data_from.objects
+        for i in data_to.objects:
+            if i is not None:
+                bamPath = mytool.importObjectPath.split(".blend")[0]
+                i["model"] = bamPath + ".bam"
+                bpy.context.scene.collection.objects.link(i)
+        return {"FINISHED"}
+
+
 def register():
     bpy.utils.register_class(Hekate)
     
     bpy.utils.register_class(MyProperties)
     bpy.utils.register_class(SaveOperator)
     bpy.utils.register_class(SaveMapOperator)
+    bpy.utils.register_class(ImportObjects)
     bpy.types.Scene.my_tool = bpy.props.PointerProperty(type=MyProperties)
     
 

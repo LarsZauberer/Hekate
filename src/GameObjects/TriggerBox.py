@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 class TriggerBox(DynamicObject):
-    def __init__(self, app, name="undefined", x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1):
+    def __init__(self, app, name="undefined", x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, model=None):
         self.app = app
         self.name = name
         

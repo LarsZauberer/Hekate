@@ -87,7 +87,7 @@ class Application(ShowBase):
         
         
         # Finished -> Loading Map
-        maps = {"test": Path("Content/test.json")}
+        maps = {"test": Path("Content/test.json"), "test2": Path("map.json")}
         self.mapLoader = MapLoader(self, maps)
         self.mapLoader.loadMap("test")
     
@@ -115,5 +115,8 @@ class Application(ShowBase):
                         i.modelObj.show()
                     elif cmd[-1] == "0":
                         i.modelObj.hide()
+        elif "map" in cmd:
+            mapName = cmd.split("map ")[1]
+            self.mapLoader.loadMap(mapName)
         else:
             print("No Command found")
