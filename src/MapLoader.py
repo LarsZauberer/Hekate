@@ -1,5 +1,4 @@
 import json
-from Content.Player import Player
 
 
 class MapLoader:
