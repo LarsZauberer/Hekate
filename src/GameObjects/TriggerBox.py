@@ -14,7 +14,7 @@ class TriggerBox(DynamicObject):
         # Collision
         self.touching = []
 
-        shape = BulletBoxShape(Vec3(sx, sy, sz))
+        shape = BulletBoxShape(Vec3(1, 1, 1))
 
         ghost = BulletGhostNode(name)
         ghost.addShape(shape)
@@ -32,9 +32,9 @@ class TriggerBox(DynamicObject):
         
         self.model = Path("Content") / Path("metall.bam")
         self.modelObj = self.app.loader.loadModel(self.model)
-        self.modelObj.reparent_to(self.node)
+        self.modelObj.copyTo(self.node)
         
-        self.modelObj.hide()
+        self.node.hide()
         
         # Add update task to app
         self.app.taskMgr.add(self.update, f"{name}_update")
