@@ -25,8 +25,7 @@ from rpplugins.ssr import plugin
 from rpplugins.volumetrics import plugin
 from rpplugins.vxgi import plugin
 
-# Sorcery Engine
-from src.ModelLoader import ModelLoader
+# Hekate Engine
 from src.MapLoader import MapLoader
 
 class Application(ShowBase):
