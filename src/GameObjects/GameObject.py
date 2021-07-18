@@ -1,21 +1,16 @@
-from panda3d.bullet import BulletBoxShape
+from panda3d.bullet import BulletBoxShape, BulletConvexHullShape, BulletTriangleMesh, BulletTriangleMeshShape
 from panda3d.bullet import BulletRigidBodyNode
 from panda3d.core import Vec3
 from pathlib import Path
-
-from src.CollisionShapes import shapes
 
 
 class GameObject:
     def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, collisionShapeClass=1, collisionShapeArgs=[(1, 1, 1)], mass=0):
         # Importent saves
         self.app = app
-        for i in collisionShapeArgs:
-            if type(i) is list:
-                collisionShapeArgs[collisionShapeArgs.index(i)] = tuple(i)
-        self.collisionShape = shapes[collisionShapeClass](*collisionShapeArgs)
         self.name = name
         
+        self.createShape(model)
         self._createMainNode(mass)
         self.node.setTag("ground", str(ground))
         self.transform(x, y, z, rx, ry, rz, sx, sy, sz)
@@ -45,3 +40,27 @@ class GameObject:
     
     def transform(self, x, y, z, rx, ry, rz, sx, sy, sz):
         self.node.setPosHprScale(x, y, z, rx, ry, rz, sx, sy, sz)
+    
+    def createShape(self, model):
+        return self.triangleShape(model)
+    
+    def simpleShape(self, *args):
+        self.collisionShape = BulletBoxShape(Vec3(1, 1, 1))
+    
+    def convexHullShape(self, model):
+        geomNodes = self.app.loader.loadModel(Path("Content") / Path(model)).findAllMatches('**/+GeomNode')
+        geomNode = geomNodes.getPath(0).node()
+        geom = geomNode.getGeom(0)
+        shape = BulletConvexHullShape()
+        shape.addGeom(geom)
+        self.collisionShape = shape
+    
+    def triangleShape(self, model):
+        geomNodes = self.app.loader.loadModel(Path("Content") / Path(model)).findAllMatches('**/+GeomNode')
+        geomNode = geomNodes.getPath(0).node()
+        geom = geomNode.getGeom(0)
+        mesh = BulletTriangleMesh()
+        mesh.addGeom(geom)
+        shape = BulletTriangleMeshShape(mesh, dynamic=False)
+        self.collisionShape = shape
+    
