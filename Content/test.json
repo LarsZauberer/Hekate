@@ -16,10 +16,10 @@
                 "z": 1
             }},
             {"id": 0, "data": {
-                "collisionShapeClass": 1,
-                "collisionShapeArgs": [[10, 10, 1]],
-                "model": "terrain.bam",
-                "ground": true
+                "model": "terrain2.bam",
+                "ground": true,
+                "sx": 20,
+                "sy": 20
             }}
         ]
 }
