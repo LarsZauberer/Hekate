@@ -1,4 +1,6 @@
 import json
+from src.GameObjects.Player.FirstPersonPlayer import FirstPersonPlayer
+
 
 
 class MapLoader:
@@ -23,6 +25,8 @@ class MapLoader:
             classes[i["id"]](self.app, **i["data"])
         
         # TODO: Spawn Player from mapData
+        self.app.player = FirstPersonPlayer(self.app)
+        
         
     def unloadMap(self):
         newRegistry = self.app.objectRegistry.copy()

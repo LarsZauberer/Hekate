@@ -68,7 +68,6 @@ class Application(ShowBase):
             self.player = None
             
         else:
-            from src.GameObjects.Player.FirstPersonPlayer import FirstPersonPlayer
             self.accept("w", self.keys.append, ["w"])
             self.accept("w-up", self.keys.remove, ["w"])
             self.accept("s", self.keys.append, ["s"])
@@ -81,9 +80,6 @@ class Application(ShowBase):
             self.accept("space-up", self.keys.remove, ["space"])
             
             self.disable_mouse()
-            # TODO: make Player variable
-            self.player = FirstPersonPlayer(self)
-
 
         self.accept("tab", self.show_Console)
         
@@ -147,4 +143,4 @@ class Application(ShowBase):
     
     def createBulletWorld(self):
         self.world = BulletWorld()
-        self.world.setGravity(Vec3(0, 0, 9.81))
+        self.world.setGravity(Vec3(0, 0, -9.81))
