@@ -1,7 +1,7 @@
 from direct.showbase.ShowBase import ShowBase
 from rpcore import RenderPipeline
-from panda3d.core import load_prc_file_data, Vec3, BitMask32
-from panda3d.bullet import BulletWorld
+from panda3d.core import load_prc_file_data, Vec3
+from panda3d.bullet import BulletWorld, BulletDebugNode
 from direct.gui.DirectGui import DirectEntry
 from pathlib import Path
 
@@ -45,8 +45,8 @@ class Application(ShowBase):
         self.render_pipeline.set_loading_screen_image("Content/tree.png")
         self.render_pipeline.create(self)
         
-        self.world = BulletWorld()
-        self.world.setGravity(Vec3(0, 0, -9.81))
+        self.createBulletWorld()
+        self.doPhysics = True
         
         self.taskMgr.add(self.update, "update")
         
@@ -66,6 +66,7 @@ class Application(ShowBase):
                 Vec3(-39.7285499573, -14.6770210266, 0.0))
             self.controller.setup()
             self.player = None
+            
         else:
             from src.GameObjects.Player.FirstPersonPlayer import FirstPersonPlayer
             self.accept("w", self.keys.append, ["w"])
@@ -80,20 +81,34 @@ class Application(ShowBase):
             self.accept("space-up", self.keys.remove, ["space"])
             
             self.disable_mouse()
+            # TODO: make Player variable
             self.player = FirstPersonPlayer(self)
-            # self.accept('space', player.doJump)
-            # self.accept('c', player.doCrouch)
-            self.accept("tab", self.show_Console)
+
+
+        self.accept("tab", self.show_Console)
         
         
         # Finished -> Loading Map
+        # TODO: Make map list variable
         maps = {"test": Path("Content/test.json"), "test2": Path("map.json")}
         self.mapLoader = MapLoader(self, maps)
         self.mapLoader.loadMap("test")
+        
+        # TODO: Create trough console
+        debugNode = BulletDebugNode('Debug')
+        debugNode.showWireframe(True)
+        debugNode.showConstraints(True)
+        debugNode.showBoundingBoxes(False)
+        debugNode.showNormals(False)
+        self.debugNP = self.render.attachNewNode(debugNode)
+        self.debugNP.hide()
+
+        self.world.setDebugNode(self.debugNP.node())
     
     def update(self, task):
-        # dt = globalClock.getDt()
-        self.world.doPhysics(1)
+        dt = globalClock.getDt()
+        if self.doPhysics:
+            self.world.doPhysics(dt)
         
         return task.cont
     
@@ -112,11 +127,24 @@ class Application(ShowBase):
                 from src.GameObjects.TriggerBox import TriggerBox
                 if issubclass(type(i), TriggerBox):
                     if cmd[-1] == "1":
-                        i.modelObj.show()
+                        i.node.show()
                     elif cmd[-1] == "0":
-                        i.modelObj.hide()
+                        i.node.hide()
         elif "map" in cmd:
             mapName = cmd.split("map ")[1]
             self.mapLoader.loadMap(mapName)
+        elif "show collision" in cmd:
+            if cmd[-1] == "1":
+                self.debugNP.show()
+            elif cmd[-1] == "0":
+                self.debugNP.hide()
+        elif "stop" in cmd:
+            self.doPhysics = False
+        elif "start" in cmd:
+            self.doPhysics = True
         else:
             print("No Command found")
+    
+    def createBulletWorld(self):
+        self.world = BulletWorld()
+        self.world.setGravity(Vec3(0, 0, 9.81))
