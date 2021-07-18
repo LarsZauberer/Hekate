@@ -1,6 +1,5 @@
 import json
-from pathlib import Path
-from src.GameObjects.Player.FirstPersonPlayer import FirstPersonPlayer
+from Content.Player import Player
 
 
 class MapLoader:
@@ -15,19 +14,27 @@ class MapLoader:
             
         try:
             from Content.classRegistry import classes
-        except ModuleNotFoundError:
+        except ModuleNotFoundError as e:
+            print(e)
             exit("No Class Registry found")
         
         mapData = data["mapData"]
         for i in mapData:
             # Spawn objects
             classes[i["id"]](self.app, **i["data"])
-    
+        
+        # TODO: Spawn Player from mapData
+        
     def unloadMap(self):
         newRegistry = self.app.objectRegistry.copy()
         for i in self.app.objectRegistry:
-            if type(i) != FirstPersonPlayer:
-                i.node.removeNode()
-                self.app.taskMgr.remove(i.name + "_update")
-                newRegistry.remove(i)
+            # Delete Collisions
+            self.app.createBulletWorld()
+            
+            # Delete Visual Object
+            i.node.removeNode()
+            # Remove Loop
+            self.app.taskMgr.remove(i.name + "_update")
+            # Remove from registry
+            newRegistry.remove(i)
         self.app.objectRegistry = newRegistry
