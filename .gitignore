@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# All not engine files
+screenshot.png
+*.blend
+Content/*
+!Content/classRegistry.py
+!Content/tree.png
