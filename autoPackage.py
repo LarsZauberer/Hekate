@@ -51,10 +51,10 @@ except Exception:
 try:
     shutil.copy(Path("packagingTemplate/install.flag"), Path("build/win_amd64"))
     shutil.copy(Path("packagingTemplate/use_cxx.flag"), Path("build/win_amd64"))
+    shutil.copy(Path("packagingTemplate/install.flag"), Path("build/manylinux1_x86_64"))
+    shutil.copy(Path("packagingTemplate/use_cxx.flag"), Path("build/manylinux1_x86_64"))
 except PermissionError:
-    log.warning(f"Couldn't copy flags due to permission error. Please move them manually to the win_amd64 folder. They are located in the packagingTemplate")
-    shutil.copy(Path("packagingTemplate/install.flag"), Path("build"))
-    shutil.copy(Path("packagingTemplate/use_cxx.flag"), Path("build"))
+    log.warning(f"Couldn't copy flags due to permission error. Please move them manually to the win_amd64 or manylinux1_x86_64 folder. They are located in the packagingTemplate")
 except Exception:
     log.exception(f"Error while copying flags")
     exit(1)
