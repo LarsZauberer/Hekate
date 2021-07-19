@@ -74,9 +74,9 @@ class SaveMapOperator(bpy.types.Operator):
             datadata["x"] = i.location.x
             datadata["y"] = i.location.y
             datadata["z"] = i.location.z
-            datadata["rx"] = i.rotation_euler.x
-            datadata["ry"] = i.rotation_euler.y
-            datadata["rz"] = i.rotation_euler.z
+            datadata["rx"] = i.rotation_euler.z # h rotation around z axis
+            datadata["ry"] = i.rotation_euler.x # p rotation around x axis
+            datadata["rz"] = i.rotation_euler.y # r rotation around y axis
             datadata["sx"] = i.scale.x
             datadata["sy"] = i.scale.y
             datadata["sz"] = i.scale.z
