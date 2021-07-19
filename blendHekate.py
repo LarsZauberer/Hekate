@@ -114,8 +114,12 @@ class ImportObjects(bpy.types.Operator):
             data_to.objects = data_from.objects
         for i in data_to.objects:
             if i is not None:
-                bamPath = mytool.importObjectPath.split(".blend")[0]
-                i["model"] = bamPath + ".bam"
+                bamPath = mytool.importObjectPath.split(".blend")[0] + ".bam"
+                try:
+                    relative_path = bamPath.split("Content/")[1]
+                except IndexError:
+                    relative_path = bamPath.split("Content\\")[1]
+                i["model"] = relative_path
                 bpy.context.scene.collection.objects.link(i)
         return {"FINISHED"}
 
