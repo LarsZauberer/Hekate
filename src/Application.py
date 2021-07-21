@@ -103,7 +103,7 @@ class Application(ShowBase):
     def update(self, task):
         dt = globalClock.getDt()
         if self.doPhysics:
-            self.world.doPhysics(dt)
+            self.world.doPhysics(dt, 500, 1.0/180.0)
         
         return task.cont
     
