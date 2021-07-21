@@ -103,6 +103,7 @@ class Application(ShowBase):
     def update(self, task):
         dt = globalClock.getDt()
         if self.doPhysics:
+            # TODO: Numbers from CPU power
             self.world.doPhysics(dt, 500, 1.0/180.0)
         
         return task.cont
