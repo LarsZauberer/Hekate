@@ -42,7 +42,7 @@ class GameObject:
         self.node.setPosHprScale(x, y, z, rx, ry, rz, sx, sy, sz)
     
     def createShape(self, model):
-        return self.triangleShape(model)
+        return self.convexHullShape(model)
     
     def simpleShape(self, *args):
         self.collisionShape = BulletBoxShape(Vec3(1, 1, 1))
