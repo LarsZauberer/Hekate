@@ -1,5 +1,6 @@
 from src.GameObjects.GameObject import GameObject
 from panda3d.core import Vec3
+import math
 
 
 class DynamicObject(GameObject):
@@ -18,7 +19,6 @@ class DynamicObject(GameObject):
         self._createMainNode(mass)
         self.node.setTag("ground", str(ground))
         self.transform(x, y, z, rx, ry, rz, sx, sy, sz)
-        self.oldPos = Vec3(x, y, z)
         
         # ? Actor doesn't work
         # self.visNode = Actor(self.model, self.animations)
@@ -32,10 +32,6 @@ class DynamicObject(GameObject):
         self._handleCollision()
         if self.emission:
             self._updateEmissionLights()
-            self.oldPos = self.node.getPos()
-        self.node.setPos(self.node.getPos()+0.01)
-        for i in self.lights:
-            print(i.pos)
         return task.cont
     
     def onCollisionEnter(self, otherGameObject):
@@ -77,6 +73,19 @@ class DynamicObject(GameObject):
         return super().convexHullShape(model)
     
     def _updateEmissionLights(self):
-        # TODO: #24 Emission Rotation
+        # All node lights. They are not the real light.
+        nodeLights = []
+        for i in self.node.children[0].children[0].children:
+            if "Light" in i.name:
+                nodeLights.append(i)
+
+        try:
+            assert len(nodeLights) == len(self.lights)
+        except AssertionError:
+            print("Not enough lights in the model found. Make sure every light has the \"Light\" in the name.")
+            print(f"Lights found: {nodeLights}")
+
         for i in self.lights:
-            i.pos = i.pos + self.node.getPos() - self.oldPos
+            # Relative Light Vector to the parent object
+            lightRelVec = nodeLights[self.lights.index(i)].getPos()
+            i.pos = self.app.render.getRelativeVector(self.node, lightRelVec) + self.node.getPos()
