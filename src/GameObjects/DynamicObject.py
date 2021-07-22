@@ -77,6 +77,6 @@ class DynamicObject(GameObject):
         return super().convexHullShape(model)
     
     def _updateEmissionLights(self):
-        # TODO: Emission Rotation
+        # TODO: #24 Emission Rotation
         for i in self.lights:
             i.pos = i.pos + self.node.getPos() - self.oldPos
