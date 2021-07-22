@@ -76,21 +76,11 @@ class Application(ShowBase):
         
         
         # Finished -> Loading Map
-        # TODO: Make map list variable
+        # TODO: #23 Make map list variable
         maps = {"test": Path("Content/test.json"), "test2": Path("map.json")}
         self.mapLoader = MapLoader(self, maps)
         self.mapLoader.loadMap("test")
         
-        # TODO: Create trough console
-        debugNode = BulletDebugNode('Debug')
-        debugNode.showWireframe(True)
-        debugNode.showConstraints(True)
-        debugNode.showBoundingBoxes(False)
-        debugNode.showNormals(False)
-        self.debugNP = self.render.attachNewNode(debugNode)
-        self.debugNP.hide()
-
-        self.world.setDebugNode(self.debugNP.node())
     
     def update(self, task):
         dt = globalClock.getDt()
@@ -134,9 +124,18 @@ class Application(ShowBase):
             self.mapLoader.loadMap(mapName)
         elif "show collision" in cmd:
             if cmd[-1] == "1":
+                debugNode = BulletDebugNode('Debug')
+                debugNode.showWireframe(True)
+                debugNode.showConstraints(True)
+                debugNode.showBoundingBoxes(False)
+                debugNode.showNormals(False)
+                self.debugNP = self.render.attachNewNode(debugNode)
                 self.debugNP.show()
+
+                self.world.setDebugNode(self.debugNP.node())
             elif cmd[-1] == "0":
-                self.debugNP.hide()
+                self.debugNP.removeNode()
+                self.world.clearDebugNode()
         elif "stop" in cmd:
             self.doPhysics = False
         elif "start" in cmd:
