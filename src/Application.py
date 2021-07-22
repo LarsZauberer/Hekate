@@ -77,7 +77,7 @@ class Application(ShowBase):
         
         # Finished -> Loading Map
         # TODO: #23 Make map list variable
-        maps = {"test": Path("Content/test.json"), "test2": Path("map.json")}
+        maps = {"test": Path("Content/map.json"), "test2": Path("map.json")}
         self.mapLoader = MapLoader(self, maps)
         self.mapLoader.loadMap("test")
         
