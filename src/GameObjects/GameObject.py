@@ -5,10 +5,13 @@ from pathlib import Path
 
 
 class GameObject:
-    def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0):
+    def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, emission=False):
         # Importent saves
         self.app = app
         self.name = name
+        
+        # Emission Lights
+        self.lights = []
         
         self.createShape(model)
         self._createMainNode(mass)
@@ -23,7 +26,7 @@ class GameObject:
             self.model = Path("Content") / Path(model)
             modelObj = self.app.loader.loadModel(self.model)
             modelObj.copyTo(node)
-            self.app.render_pipeline.prepare_scene(node)
+            self.lights = self.app.render_pipeline.prepare_scene(node)["lights"]
         else:
             self.model = None
     

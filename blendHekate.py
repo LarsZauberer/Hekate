@@ -62,8 +62,19 @@ class SaveMapOperator(bpy.types.Operator):
     bl_idname = "hekate.generatemap"
     
     def execute(self, context):
+        # Get only the objects of the highest parent
+        ob = bpy.data.objects
+        data = []
+        for i in ob:
+            obj = i
+            while obj.parent != None:
+                obj = obj.parent
+            data.append(obj)
+        objects = set(data)
+        
+        # Generate Data
         data = {"mapData": []}
-        for i in bpy.data.objects:
+        for i in objects:
             objectData = {}
             try:
                 objectData["id"] = i["id"]
