@@ -57,28 +57,20 @@ class Application(ShowBase):
         self.keys = []
         self.mv = self.mouseWatcherNode
         
-        if debug:
-            from rpcore.util.movement_controller import MovementController
-            self.controller = MovementController(self)
-            self.controller.set_initial_position_hpr(
-                Vec3(-17.2912578583, -13.290019989, 6.88211250305),
-                Vec3(-39.7285499573, -14.6770210266, 0.0))
-            self.controller.setup()
-            self.player = None
+        self.noclip = False
             
-        else:
-            self.accept("w", self.keys.append, ["w"])
-            self.accept("w-up", self.keys.remove, ["w"])
-            self.accept("s", self.keys.append, ["s"])
-            self.accept("s-up", self.keys.remove, ["s"])
-            self.accept("d", self.keys.append, ["d"])
-            self.accept("d-up", self.keys.remove, ["d"])
-            self.accept("a", self.keys.append, ["a"])
-            self.accept("a-up", self.keys.remove, ["a"])
-            self.accept("space", self.keys.append, ["space"])
-            self.accept("space-up", self.keys.remove, ["space"])
-            
-            self.disable_mouse()
+        self.accept("w", self.keys.append, ["w"])
+        self.accept("w-up", self.keys.remove, ["w"])
+        self.accept("s", self.keys.append, ["s"])
+        self.accept("s-up", self.keys.remove, ["s"])
+        self.accept("d", self.keys.append, ["d"])
+        self.accept("d-up", self.keys.remove, ["d"])
+        self.accept("a", self.keys.append, ["a"])
+        self.accept("a-up", self.keys.remove, ["a"])
+        self.accept("space", self.keys.append, ["space"])
+        self.accept("space-up", self.keys.remove, ["space"])
+        
+        self.disable_mouse()
 
         self.accept("tab", self.show_Console)
         
@@ -116,8 +108,19 @@ class Application(ShowBase):
         cmd = cmd.lower()
         self.entry.destroy()
         if "noclip" in cmd:
-            if self.player is not None:
-                self.player.noClip = not self.player.noClip
+            if not self.noclip:
+                self.noclip = True
+                from rpcore.util.movement_controller import MovementController
+                self.controller = MovementController(self)
+                self.controller.set_initial_position_hpr(
+                    self.camera.getPos(),
+                    self.camera.getHpr())
+                self.controller.setup()
+                self.taskMgr.remove("Player_update")
+            else:
+                self.noclip = False
+                self.controller = False
+                self.taskMgr.add(self.player.update, "Player_update")
         elif "show triggers" in cmd:
             for i in self.objectRegistry:
                 from src.GameObjects.TriggerBox import TriggerBox
