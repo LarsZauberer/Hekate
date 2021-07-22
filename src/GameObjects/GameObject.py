@@ -23,7 +23,7 @@ class GameObject:
             self.model = Path("Content") / Path(model)
             modelObj = self.app.loader.loadModel(self.model)
             modelObj.copyTo(node)
-            self.app.render_pipeline.prepare_scene(modelObj)
+            self.app.render_pipeline.prepare_scene(node)
         else:
             self.model = None
     
