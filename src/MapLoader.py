@@ -1,6 +1,7 @@
 import json
 from src.GameObjects.Player.FirstPersonPlayer import FirstPersonPlayer
 from src.functionDecorators import tryFunc
+from src.GameObjects.Light import Light
 
 
 class MapLoader:
@@ -47,4 +48,11 @@ class MapLoader:
             # Remove from registry
             newRegistry.remove(i)
         self.app.objectRegistry = newRegistry
+        
+        newLightRegistry = self.app.lightRegistry.copy()
+        for i in self.app.lightRegistry:
+            self.app.render_pipeline.remove_light(i)
+            newLightRegistry.remove(i)
+        self.app.lightRegistry = newLightRegistry
+        
         log.debug(f"Successfully unloaded map")

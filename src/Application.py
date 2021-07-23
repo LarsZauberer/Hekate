@@ -103,6 +103,7 @@ class Application(ShowBase):
         self.camLens.set_fov(90)
         
         self.objectRegistry = []
+        self.lightRegistry = []
         
         self.keys = []
         self.mv = self.mouseWatcherNode

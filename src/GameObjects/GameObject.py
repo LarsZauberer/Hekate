@@ -11,6 +11,7 @@ class GameObject:
         # Importent saves
         self.app = app
         self.name = name
+        self.emmission = emission
         
         # Emission Lights
         self.lights = []
@@ -30,6 +31,7 @@ class GameObject:
             modelObj = self.app.loader.loadModel(self.model)
             modelObj.copyTo(node)
             self.lights = self.app.render_pipeline.prepare_scene(node)["lights"]
+            self.app.lightRegistry += self.lights
         else:
             self.model = None
     

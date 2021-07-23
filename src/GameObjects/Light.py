@@ -13,3 +13,5 @@ class Light(PointLight):
         self.light.set_color(color_x, color_y, color_z)
         self.light.pos = (x, y, z)
         self.light.energy = energy
+        
+        self.app.lightRegistry.append(self.light)
