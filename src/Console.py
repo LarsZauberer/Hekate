@@ -1,6 +1,8 @@
 import inspect
-from direct.gui.DirectGui import DirectEntry
-from panda3d.core import Vec3
+from direct.gui.DirectGui import DirectEntry, DirectFrame
+from direct.gui.OnscreenText import OnscreenText
+from panda3d.core import Vec3, TextNode
+from logging import StreamHandler
 
 from src.functionDecorators import tryFunc
 
@@ -23,25 +25,37 @@ class Console:
         except Exception:
             log.exception(f"Error while loading custom console commands")
         
+        # List of commands
         self.cmds = self.getCommands(ic)
         self.cmds += self.getCommands(cc)
         
         log.debug(f"Commands loaded: {[i.executor for i in self.cmds]}")
         
+        # Save the physics state
         self.phy = self.app.doPhysics
+        
+        # Console log text
+        self.logConsole = OnscreenText(text='Console', pos=(-0.95, 0.75), scale=0.03, mayChange=True, align=TextNode.ALeft)
+        self.logConsole.hide()
+        
+        # Template for the input box
+        self.entryTemplate = {"text": "", "scale": .05, "command": self.execute, "initialText": "", "numLines": 1, "focus": 1, "pos": Vec3(-0.95, 0, -0.75), "width": 38}
     
     @tryFunc
     def show_Console(self):
         log = self.app.getLogger(self.show_Console)
+        # Show the console
         if self.entry is None:
             self.phy = self.app.doPhysics
-            self.entry = DirectEntry(text = "", scale=.05, command=self.execute,
-            initialText="", numLines = 1, focus=1, pos=Vec3(0.8, 0, -0.95))
+            self.buildConsole()
             log.debug(f"Showing Console")
             self.app.doPhysics = False
         else:
+            # Hide the console
             log.debug(f"Hiding Console")
             self.entry.destroy()
+            self.frame.destroy()
+            self.logConsole.hide()
             self.app.doPhysics = self.phy
             self.entry = None
     
@@ -50,9 +64,9 @@ class Console:
         log = self.app.getLogger(self.execute)
         cmd = cmd.lower()
         self.entry.destroy()
-        self.app.doPhysics = self.phy
-        self.entry = None
+        self.entry = DirectEntry(**self.entryTemplate)
         
+        # Show Help
         if cmd == "help":
             for i in [i.executor for i in self.cmds]:
                 log.info(i)
@@ -76,6 +90,16 @@ class Console:
         
         return cmds
 
+    @tryFunc
+    def buildConsole(self):
+        self.frame = DirectFrame(frameColor=(200, 200, 200, 0.7),
+                            frameSize=(-1, 1, -0.8, 0.8),
+                            pos=(0, -1, 0))
+        
+        self.logConsole.show()
+        
+        self.entry = DirectEntry(**self.entryTemplate)
+
 
 class Command:
     @tryFunc
@@ -86,3 +110,15 @@ class Command:
     @tryFunc
     def execute(self, cmd):
         pass
+
+
+class ConsoleLogHandler(StreamHandler):
+    def __init__(self, app):
+        super().__init__()
+        
+        self.app = app
+    
+    def emit(self, record):
+        msg = self.format(record)
+        if hasattr(self.app, "console"):
+            self.app.console.logConsole.text += "\n" + msg

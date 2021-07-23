@@ -48,8 +48,9 @@ class Application(ShowBase):
         logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(name)s] [%(levelname)-5.5s] %(message)s")
         FileHandler.setFormatter(logFormatter)
         if debug:
+            from src.Console import ConsoleLogHandler
             logging.basicConfig(
-                level="DEBUG", format=FORMAT, datefmt="[%X]", handlers=[RichHandler(), FileHandler]
+                level="DEBUG", format=FORMAT, datefmt="[%X]", handlers=[RichHandler(), FileHandler, ConsoleLogHandler(self)]
             )
         else:
             logging.basicConfig(

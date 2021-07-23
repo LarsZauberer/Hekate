@@ -40,6 +40,7 @@ class startPhysics(Command):
         log = self.app.getLogger(self.execute)
         log.info(f"Starting Physics")
         self.app.doPhysics = True
+        self.app.console.phy = True
 
 class stopPhysics(Command):
     @tryFunc
@@ -52,6 +53,7 @@ class stopPhysics(Command):
         log = self.app.getLogger(self.execute)
         log.info(f"Stopping Physics")
         self.app.doPhysics = False
+        self.app.console.phy = False
 
 
 class showTriggers(Command):
