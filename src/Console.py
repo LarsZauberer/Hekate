@@ -30,36 +30,37 @@ class Console:
     
     @tryFunc
     def show_Console(self):
+        log = self.app.getLogger(self.show_Console)
         if self.entry is None:
-            log = self.app.getLogger(self.show_Console)
             self.entry = DirectEntry(text = "", scale=.05, command=self.execute,
             initialText="", numLines = 1, focus=1, pos=Vec3(0.8, 0, -0.95))
             log.debug(f"Showing Console")
             self.app.doPhysics = False
         else:
+            log.debug(f"Hiding Console")
             self.entry.destroy()
             self.app.doPhysics = True
+            self.entry = None
     
     @tryFunc
     def execute(self, cmd):
         log = self.app.getLogger(self.execute)
         cmd = cmd.lower()
-        log.info(f"Trying to execute command: {cmd}")
         self.entry.destroy()
+        self.app.doPhysics = True
+        self.entry = None
         
         if cmd == "help":
             for i in [i.executor for i in self.cmds]:
                 log.info(i)
         else:
             for i in self.cmds:
-                if i.executor == cmd:
+                if i.executor in cmd:
                     log.info(f"Executing command: {i.executor}")
-                    i.execute(cmd.split(i.executor)[-1])
+                    i.execute(cmd.split(i.executor + " ")[-1])
                     return
             log.warning(f"Command not found: {cmd}")
-        
-        
-    
+
     @tryFunc
     def getCommands(self, module):
         cmds = []

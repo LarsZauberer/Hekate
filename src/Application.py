@@ -119,7 +119,7 @@ class Application(ShowBase):
         
         # Finished -> Loading Map
         # TODO: #23 Make map list variable
-        maps = {"test": Path("Content/map.json"), "test2": Path("map.json")}
+        maps = {"test": Path("Content/map.json"), "test2": Path("Content/test.json")}
         self.mapLoader = MapLoader(self, maps)
         log.debug(f"Created Maploader")
         try:
@@ -136,37 +136,6 @@ class Application(ShowBase):
             self.world.doPhysics(dt, 500, 1.0/180.0)
         
         return task.cont
-    
-    @tryFunc
-    def execute(self, cmd):
-        log = self.getLogger(self.execute)
-        cmd = cmd.lower()
-        log.info(f"Trying to execute command: {cmd}")
-        self.entry.destroy()
-        if "show triggers" in cmd:
-            pass
-        elif "map" in cmd:
-            mapName = cmd.split("map ")[1]
-            log.info(f"Loading map: {mapName}")
-            self.mapLoader.loadMap(mapName)
-        elif "show collision" in cmd:
-            if cmd[-1] == "1":
-                log.info(f"Showing collisions")
-                debugNode = BulletDebugNode('Debug')
-                debugNode.showWireframe(True)
-                debugNode.showConstraints(True)
-                debugNode.showBoundingBoxes(False)
-                debugNode.showNormals(False)
-                self.debugNP = self.render.attachNewNode(debugNode)
-                self.debugNP.show()
-
-                self.world.setDebugNode(self.debugNP.node())
-            elif cmd[-1] == "0":
-                log.info(f"Hiding collisions")
-                self.debugNP.removeNode()
-                self.world.clearDebugNode()
-        else:
-            log.info(f"No Command found")
     
     @tryFunc
     def createBulletWorld(self):

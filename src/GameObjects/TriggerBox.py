@@ -13,6 +13,8 @@ class TriggerBox(DynamicObject):
         self.app = app
         self.name = name
         
+        self.emission = False
+        
         # Collision
         self.touching = []
 
