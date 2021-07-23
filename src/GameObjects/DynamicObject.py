@@ -1,9 +1,9 @@
 from src.GameObjects.GameObject import GameObject
-from panda3d.core import Vec3
-import math
+from src.functionDecorators import tryFunc
 
 
 class DynamicObject(GameObject):
+    @tryFunc
     def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, animations={}, emission=False):
         self.app = app
         self.name = name
@@ -28,21 +28,26 @@ class DynamicObject(GameObject):
         # Add update task to app
         self.app.taskMgr.add(self.update, f"{name}_update")
     
+    @tryFunc
     def update(self, task):
         self._handleCollision()
         if self.emission:
             self._updateEmissionLights()
         return task.cont
     
+    @tryFunc
     def onCollisionEnter(self, otherGameObject):
         pass
     
+    @tryFunc
     def onCollisionStay(self, otherGameObject):
         pass
     
+    @tryFunc
     def onCollisionExit(self, otherGameObject):
         pass
     
+    @tryFunc
     def _handleCollision(self):
         # Collision Testing
         result = self.app.world.contactTest(self.node.node())
@@ -68,10 +73,12 @@ class DynamicObject(GameObject):
         # Call all exited objects
         for i in exited:
             self.onCollisionExit(i)
-            
+     
+    @tryFunc       
     def createShape(self, model):
         return super().convexHullShape(model)
     
+    @tryFunc
     def _updateEmissionLights(self):
         # All node lights. They are not the real light.
         nodeLights = []

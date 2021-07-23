@@ -2,9 +2,11 @@ from src.GameObjects.DynamicObject import DynamicObject
 from panda3d.core import Vec3, BitMask32
 from panda3d.bullet import BulletCapsuleShape, ZUp, BulletBoxShape
 from panda3d.bullet import BulletCharacterControllerNode
+from src.functionDecorators import tryFunc
 
 
 class FirstPersonPlayer(DynamicObject):
+    @tryFunc
     def __init__(self, app):
         # Character
         self.speed = 50
@@ -12,6 +14,7 @@ class FirstPersonPlayer(DynamicObject):
 
         super().__init__(app, name="Player", x=-10, y=-10, z=14, mass=10, model="Block.bam")
     
+    @tryFunc
     def update(self, task):
         super().update(task)
         
@@ -75,6 +78,7 @@ class FirstPersonPlayer(DynamicObject):
         
         return task.cont
     
+    @tryFunc
     def isGrounded(self):
         result = self.app.world.contactTest(self.node.node())
         for i in result.getContacts():
