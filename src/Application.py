@@ -32,7 +32,7 @@ from src.functionDecorators import tryFunc
 
 class Application(ShowBase):
     
-    def __init__(self, prcName, debug=False):
+    def __init__(self, prcName, debug=False, forceDisableRenderPipelineDebug=True):
         # The main game class. Storing everything from world to models
         
         # Check if logs directory exists, if not create it
@@ -67,11 +67,26 @@ class Application(ShowBase):
         try:
             # Construct and create the pipeline
             self.render_pipeline = RenderPipeline()
+            
             self.render_pipeline.set_loading_screen_image("Content/loadingScreen.png")
+            
+            if forceDisableRenderPipelineDebug:
+                # Force disable renderpipeline debugger
+                def _debug_disabled():
+                    class EmptyDebugger(object):  # pylint: disable=too-few-public-methods
+                        def __getattr__(self, *args, **kwargs):
+                            return lambda *args, **kwargs: None
+                    self.render_pipeline.debugger = EmptyDebugger()  # pylint: disable=redefined-variable-type
+                    del EmptyDebugger
+                
+                self.render_pipeline._init_debugger = _debug_disabled
+            
             self.render_pipeline.create(self)
+            
             log.debug(f"Render Pipeline started")
         except Exception:
             log.exception(f"Error while creating render_pipeline")
+            exit("Error while creating render_pipeline")
             
         try:
             self.createBulletWorld()
@@ -79,6 +94,7 @@ class Application(ShowBase):
             self.doPhysics = True
         except Exception:
             log.exception(f"Error while creating physics world")
+            exit(f"Error while creating physics world")
         
         self.taskMgr.add(self.update, "update")
         
