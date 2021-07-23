@@ -27,11 +27,14 @@ class Console:
         self.cmds += self.getCommands(cc)
         
         log.debug(f"Commands loaded: {[i.executor for i in self.cmds]}")
+        
+        self.phy = self.app.doPhysics
     
     @tryFunc
     def show_Console(self):
         log = self.app.getLogger(self.show_Console)
         if self.entry is None:
+            self.phy = self.app.doPhysics
             self.entry = DirectEntry(text = "", scale=.05, command=self.execute,
             initialText="", numLines = 1, focus=1, pos=Vec3(0.8, 0, -0.95))
             log.debug(f"Showing Console")
@@ -39,7 +42,7 @@ class Console:
         else:
             log.debug(f"Hiding Console")
             self.entry.destroy()
-            self.app.doPhysics = True
+            self.app.doPhysics = self.phy
             self.entry = None
     
     @tryFunc
@@ -47,7 +50,7 @@ class Console:
         log = self.app.getLogger(self.execute)
         cmd = cmd.lower()
         self.entry.destroy()
-        self.app.doPhysics = True
+        self.app.doPhysics = self.phy
         self.entry = None
         
         if cmd == "help":
