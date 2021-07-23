@@ -35,17 +35,28 @@ class Application(ShowBase):
     def __init__(self, prcName, debug=False):
         # The main game class. Storing everything from world to models
         
+        # Check if logs directory exists, if not create it
+        import os
+        if not os.path.exists("logs"):
+            os.mkdir("logs")
+        
+        if os.path.exists(Path("logs/log.log")):
+            os.remove(Path("logs/log.log"))
+        
         FORMAT = "[%(name)s] %(message)s"
+        FileHandler = logging.FileHandler(Path("logs/log.log"))
+        logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(name)s] [%(levelname)-5.5s] %(message)s")
+        FileHandler.setFormatter(logFormatter)
         if debug:
             logging.basicConfig(
-                level="DEBUG", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+                level="DEBUG", format=FORMAT, datefmt="[%X]", handlers=[RichHandler(), FileHandler]
             )
         else:
             logging.basicConfig(
-                level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+                level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler(), FileHandler]
             )
 
-        log = self.getLogger(self.__init__, True)
+        log = self.getLogger(self.__init__)
         log.debug(f"Logging Initialized")
         
         load_prc_file_data("", f"""
@@ -133,17 +144,7 @@ class Application(ShowBase):
         log.info(f"Trying to execute command: {cmd}")
         self.entry.destroy()
         if "show triggers" in cmd:
-            if cmd[-1] == "1":
-                log.info(f"Showing triggers")
-            elif cmd[-1] == "0":
-                log.info(f"Hiding triggers")
-            for i in self.objectRegistry:
-                from src.GameObjects.TriggerBox import TriggerBox
-                if issubclass(type(i), TriggerBox):
-                    if cmd[-1] == "1":
-                        i.node.show()
-                    elif cmd[-1] == "0":
-                        i.node.hide()
+            pass
         elif "map" in cmd:
             mapName = cmd.split("map ")[1]
             log.info(f"Loading map: {mapName}")
@@ -173,22 +174,8 @@ class Application(ShowBase):
         self.world.setGravity(Vec3(0, 0, -9.81))
     
     # Generates logging object to log to python console and a file
-    def getLogger(self, func, reset=False):
-        # Check if logs directory exists, if not create it
-        import os
-        if not os.path.exists("logs"):
-            os.mkdir("logs")
-        
-        if reset:
-            if os.path.exists(Path("logs/log.log")):
-                os.remove(Path("logs/log.log"))
-        
+    def getLogger(self, func):
         log = logging.getLogger(str(func.__qualname__))
-        log.addHandler(logging.StreamHandler())
-        FileHandler = logging.FileHandler(Path("logs/log.log"))
-        logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(name)s] [%(levelname)-5.5s] %(message)s")
-        FileHandler.setFormatter(logFormatter)
-        log.addHandler(FileHandler)
         
         return log
         
