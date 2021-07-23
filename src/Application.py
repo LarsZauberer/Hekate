@@ -2,7 +2,6 @@ from direct.showbase.ShowBase import ShowBase
 from rpcore import RenderPipeline
 from panda3d.core import load_prc_file_data, Vec3
 from panda3d.bullet import BulletWorld, BulletDebugNode
-from direct.gui.DirectGui import DirectEntry
 from pathlib import Path
 import logging
 from rich.logging import RichHandler
@@ -80,8 +79,6 @@ class Application(ShowBase):
         self.keys = []
         self.mv = self.mouseWatcherNode
         
-        self.noclip = False
-        
         log.debug(f"Assigned Variables")
         
         # TODO: #26 Keybinding System
@@ -97,10 +94,16 @@ class Application(ShowBase):
         self.accept("space-up", self.keys.remove, ["space"])
         
         self.disable_mouse()
-
-        self.accept("tab", self.show_Console)
         
         log.debug(f"Assigned Keybinds")
+        
+        # Create developer console
+        if debug:
+            log.debug(f"Creating Console")
+            from src.Console import Console
+            self.console = Console(self)
+            self.accept("tab", self.console.show_Console)
+            
         
         
         # Finished -> Loading Map
@@ -124,35 +127,12 @@ class Application(ShowBase):
         return task.cont
     
     @tryFunc
-    def show_Console(self):
-        log = self.getLogger(self.show_Console)
-        self.entry = DirectEntry(text = "", scale=.05, command=self.execute,
-        initialText="", numLines = 1, focus=1, pos=Vec3(0.8, 0, -0.95))
-        log.debug(f"Showing Console")
-    
-    @tryFunc
     def execute(self, cmd):
         log = self.getLogger(self.execute)
         cmd = cmd.lower()
         log.info(f"Trying to execute command: {cmd}")
         self.entry.destroy()
-        if "noclip" in cmd:
-            if not self.noclip:
-                log.info(f"Activating noclip")
-                self.noclip = True
-                from rpcore.util.movement_controller import MovementController
-                self.controller = MovementController(self)
-                self.controller.set_initial_position_hpr(
-                    self.camera.getPos(),
-                    self.camera.getHpr())
-                self.controller.setup()
-                self.taskMgr.remove("Player_update")
-            else:
-                log.info(f"Deactivating noclip")
-                self.noclip = False
-                self.controller = False
-                self.taskMgr.add(self.player.update, "Player_update")
-        elif "show triggers" in cmd:
+        if "show triggers" in cmd:
             if cmd[-1] == "1":
                 log.info(f"Showing triggers")
             elif cmd[-1] == "0":
@@ -184,12 +164,6 @@ class Application(ShowBase):
                 log.info(f"Hiding collisions")
                 self.debugNP.removeNode()
                 self.world.clearDebugNode()
-        elif "stop" in cmd:
-            log.info(f"Stopping physics")
-            self.doPhysics = False
-        elif "start" in cmd:
-            log.info(f"Starting physics")
-            self.doPhysics = True
         else:
             log.info(f"No Command found")
     

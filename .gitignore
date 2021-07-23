@@ -134,4 +134,5 @@ screenshot.png
 *.blend
 Content/*
 !Content/classRegistry.py
+!Content/consoleCommands.py
 !Content/loadingScreen.png

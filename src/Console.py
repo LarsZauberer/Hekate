@@ -1,36 +1,84 @@
-import threading
+import inspect
+from direct.gui.DirectGui import DirectEntry
+from panda3d.core import Vec3
+
+from src.functionDecorators import tryFunc
 
 class Console:
-    def __init__(self, app, commandList):
+    @tryFunc
+    def __init__(self, app):
         self.app = app
-        self.commandList = commandList
+        self.entry = None
         
-        self.t = threading.Thread(target=self.console, args=(self,))
-        self.t.start()
+        log = self.app.getLogger(self.__init__)
+        try:
+            import src.internalCommands as ic
+        except Exception:
+            log.exception(f"Error while loading internal commands")
         
-    def console(self):
-        from rich import print
-        print("[green]> Develop Console Active:")
-        while True:
-            BE = input(">").lower
-            found = False
-            for i in self.commandList:
-                if i.executor == BE:
-                    found = True
-                    i.execute()
-                    break
-            if BE == "help":
-                found = True
-                for i in self.commandList:
-                    print(i.executor)
-            if found == False:
-                print("[red]No Command found. Enter Help to see all commands")
-                
+        try:
+            import Content.consoleCommands as cc
+        except ModuleNotFoundError:
+            log.warning(f"Didn't find a custom consoleCommands file")
+        except Exception:
+            log.exception(f"Error while loading custom console commands")
+        
+        self.cmds = self.getCommands(ic)
+        self.cmds += self.getCommands(cc)
+        
+        log.debug(f"Commands loaded: {[i.executor for i in self.cmds]}")
+    
+    @tryFunc
+    def show_Console(self):
+        if self.entry is None:
+            log = self.app.getLogger(self.show_Console)
+            self.entry = DirectEntry(text = "", scale=.05, command=self.execute,
+            initialText="", numLines = 1, focus=1, pos=Vec3(0.8, 0, -0.95))
+            log.debug(f"Showing Console")
+            self.app.doPhysics = False
+        else:
+            self.entry.destroy()
+            self.app.doPhysics = True
+    
+    @tryFunc
+    def execute(self, cmd):
+        log = self.app.getLogger(self.execute)
+        cmd = cmd.lower()
+        log.info(f"Trying to execute command: {cmd}")
+        self.entry.destroy()
+        
+        if cmd == "help":
+            for i in [i.executor for i in self.cmds]:
+                log.info(i)
+        else:
+            for i in self.cmds:
+                if i.executor == cmd:
+                    log.info(f"Executing command: {i.executor}")
+                    i.execute(cmd.split(i.executor)[-1])
+                    return
+            log.warning(f"Command not found: {cmd}")
+        
+        
+    
+    @tryFunc
+    def getCommands(self, module):
+        cmds = []
+        for _, obj in inspect.getmembers(module):
+            if inspect.isclass(obj) and issubclass(obj, Command) and obj.__name__ != "Command":
+                cmds.append(obj)
+        
+        for i in cmds:
+            cmds[cmds.index(i)] = i(self.app)
+        
+        return cmds
 
 
 class Command:
-    def __init__(self, executor):
-        self.executor = executor
+    @tryFunc
+    def __init__(self, app):
+        self.executor = ""
+        self.app = app
     
-    def execute(self):
+    @tryFunc
+    def execute(self, cmd):
         pass
