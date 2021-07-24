@@ -111,17 +111,8 @@ class Application(ShowBase):
         
         log.debug(f"Assigned Variables")
         
-        # TODO: #26 Keybinding System
-        self.accept("w", self.keys.append, ["w"])
-        self.accept("w-up", self.keys.remove, ["w"])
-        self.accept("s", self.keys.append, ["s"])
-        self.accept("s-up", self.keys.remove, ["s"])
-        self.accept("d", self.keys.append, ["d"])
-        self.accept("d-up", self.keys.remove, ["d"])
-        self.accept("a", self.keys.append, ["a"])
-        self.accept("a-up", self.keys.remove, ["a"])
-        self.accept("space", self.keys.append, ["space"])
-        self.accept("space-up", self.keys.remove, ["space"])
+        # Assign Keybinds
+        self.keybinds()
         
         self.disable_mouse()
         
@@ -173,4 +164,7 @@ class Application(ShowBase):
         props = WindowProperties()
         props.setCursorHidden(catch)
         self.win.requestProperties(props)
-        
+    
+    @tryFunc
+    def keybinds(self, disable=False):
+        pass

@@ -50,6 +50,7 @@ class Console:
             self.buildConsole()
             log.debug(f"Showing Console")
             self.app.doPhysics = False
+            self.app.keybinds(True)
         else:
             # Hide the console
             log.debug(f"Hiding Console")
@@ -58,6 +59,7 @@ class Console:
             self.logConsole.hide()
             self.app.doPhysics = self.phy
             self.entry = None
+            self.app.keybinds(False)
     
     @tryFunc
     def execute(self, cmd):

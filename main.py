@@ -1,15 +1,45 @@
 from src.Application import Application
+from src.functionDecorators import tryFunc
 
 class App(Application):
-    def __init__(self):
-        super().__init__()
-        # keybinds
-        
+    @tryFunc
+    def __init__(self, name, debug=False, rpdebugger=False):
+        super().__init__(name, debug, rpdebugger)
         # Mousecatching
         # self.catchMouse(True)
         
         # Other important stuff for your game
     
+    @tryFunc
+    def keybinds(self, disable=False):
+        log = self.getLogger(self.keybinds)
+        if disable:
+            # Disableing is important to don't accept input while in developer console
+            log.debug(f"Disabling Key Input")
+            self.ignore("w")
+            self.ignore("w-up")
+            self.ignore("s")
+            self.ignore("s-up")
+            self.ignore("d")
+            self.ignore("d-up")
+            self.ignore("a")
+            self.ignore("a-up")
+            self.ignore("space")
+            self.ignore("space-up")
+        else:
+            log.debug(f"Enableing Key Input")
+            self.accept("w", self.keys.append, ["w"])
+            self.accept("w-up", self.keys.remove, ["w"])
+            self.accept("s", self.keys.append, ["s"])
+            self.accept("s-up", self.keys.remove, ["s"])
+            self.accept("d", self.keys.append, ["d"])
+            self.accept("d-up", self.keys.remove, ["d"])
+            self.accept("a", self.keys.append, ["a"])
+            self.accept("a-up", self.keys.remove, ["a"])
+            self.accept("space", self.keys.append, ["space"])
+            self.accept("space-up", self.keys.remove, ["space"])
+    
+    @tryFunc
     def update(self, task):
         super().update(task)
         return task.cont
