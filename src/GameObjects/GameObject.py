@@ -1,5 +1,5 @@
 from panda3d.bullet import BulletBoxShape, BulletConvexHullShape, BulletTriangleMesh, BulletTriangleMeshShape
-from panda3d.bullet import BulletRigidBodyNode
+from panda3d.bullet import BulletRigidBodyNode, BulletGhostNode
 from panda3d.core import Vec3
 from pathlib import Path
 from src.functionDecorators import tryFunc
@@ -7,11 +7,11 @@ from src.functionDecorators import tryFunc
 
 class GameObject:
     @tryFunc
-    def __init__(self, app, name="undefined", model="defaultMeshes/cube.bam", ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, emission=False):
+    def __init__(self, app, name="undefined", model="defaultMeshes/cube.bam", ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, overlapping=False):
         # Importent saves
         self.app = app
         self.name = name
-        self.emmission = emission
+        self.overlapping = overlapping
         
         # Emission Lights
         self.lights = []
@@ -41,11 +41,19 @@ class GameObject:
     @tryFunc
     def _createMainNode(self, mass):
         # Creating the object
-        node = BulletRigidBodyNode(self.name)
-        node.setMass(mass)
-        node.addShape(self.collisionShape)
+        if not self.overlapping:
+            # Normal Collision Node
+            node = BulletRigidBodyNode(self.name)
+            node.setMass(mass)
+            node.addShape(self.collisionShape)
+            self.app.world.attachRigidBody(node)
+        else:
+            # Overlapping Node -> GhostNode
+            node = BulletGhostNode(self.name)
+            node.addShape(self.collisionShape)
+            self.app.world.attachGhost(node)
+            
         self.node = self.app.render.attachNewNode(node)
-        self.app.world.attachRigidBody(node)
         
         # Add the object to the object Registry
         self.app.objectRegistry.append(self)
