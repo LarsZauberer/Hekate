@@ -7,7 +7,7 @@ from src.functionDecorators import tryFunc
 
 class GameObject:
     @tryFunc
-    def __init__(self, app, name="undefined", model=None, ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, emission=False):
+    def __init__(self, app, name="undefined", model="defaultMeshes/cube.bam", ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, emission=False):
         # Importent saves
         self.app = app
         self.name = name
@@ -27,7 +27,10 @@ class GameObject:
         # Loading the model for the object
         # TODO: Load Model multithreaded
         if model != None:
-            self.model = Path("Content") / Path(model)
+            if "defaultMeshes" in model:
+                self.model = Path("src") / Path(model)
+            else:
+                self.model = Path("Content") / Path(model)
             modelObj = self.app.loader.loadModel(self.model)
             modelObj.copyTo(node)
             self.lights = self.app.render_pipeline.prepare_scene(node)["lights"]
@@ -61,7 +64,10 @@ class GameObject:
     
     @tryFunc
     def convexHullShape(self, model):
-        geomNodes = self.app.loader.loadModel(Path("Content") / Path(model)).findAllMatches('**/+GeomNode')
+        if "defaultMeshes" in model:
+            geomNodes = self.app.loader.loadModel(Path("src") / Path(model)).findAllMatches('**/+GeomNode')
+        else:
+            geomNodes = self.app.loader.loadModel(Path("Content") / Path(model)).findAllMatches('**/+GeomNode')
         geomNode = geomNodes.getPath(0).node()
         geom = geomNode.getGeom(0)
         shape = BulletConvexHullShape()
@@ -70,7 +76,10 @@ class GameObject:
     
     @tryFunc
     def triangleShape(self, model):
-        geomNodes = self.app.loader.loadModel(Path("Content") / Path(model)).findAllMatches('**/+GeomNode')
+        if "defaultMeshes" in model:
+            geomNodes = self.app.loader.loadModel(Path("src") / Path(model)).findAllMatches('**/+GeomNode')
+        else:
+            geomNodes = self.app.loader.loadModel(Path("Content") / Path(model)).findAllMatches('**/+GeomNode')
         geomNode = geomNodes.getPath(0).node()
         geom = geomNode.getGeom(0)
         mesh = BulletTriangleMesh()

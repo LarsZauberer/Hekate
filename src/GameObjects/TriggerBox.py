@@ -34,7 +34,7 @@ class TriggerBox(DynamicObject):
         # Add the object to the object Registry
         self.app.objectRegistry.append(self)
         
-        self.model = Path("Content") / Path("metall.bam")
+        self.model = Path("src/defaultMeshes") / Path("metall.bam")
         self.modelObj = self.app.loader.loadModel(self.model)
         self.modelObj.copyTo(self.node)
         

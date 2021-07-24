@@ -132,6 +132,7 @@ dmypy.json
 # All not engine files
 screenshot.png
 *.blend
+!src/defaultMeshes/*.blend
 Content/*
 !Content/classRegistry.py
 !Content/consoleCommands.py
