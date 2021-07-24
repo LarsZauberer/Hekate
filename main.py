@@ -1,12 +1,21 @@
 from src.Application import Application
 from src.functionDecorators import tryFunc
+from src.MapLoader import MapLoader
+from pathlib import Path
 
 class App(Application):
     @tryFunc
     def __init__(self, name, debug=False, rpdebugger=False):
         super().__init__(name, debug, rpdebugger)
+        log = self.getLogger(self.__init__)
         # Mousecatching
         # self.catchMouse(True)
+        
+        # Map Management
+        maps = {"test": Path("Content/map.json"), "test2": Path("Content/test.json")}
+        self.mapLoader = MapLoader(self, maps)
+        log.debug(f"Created Maploader")
+        self.mapLoader.loadMap("test")
         
         # Other important stuff for your game
     

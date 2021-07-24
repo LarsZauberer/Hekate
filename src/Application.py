@@ -126,18 +126,6 @@ class Application(ShowBase):
             self.accept("tab", self.console.show_Console)
             
         
-        
-        # Finished -> Loading Map
-        # TODO: #23 Make map list variable
-        maps = {"test": Path("Content/map.json"), "test2": Path("Content/test.json")}
-        self.mapLoader = MapLoader(self, maps)
-        log.debug(f"Created Maploader")
-        try:
-            log.info(f"Loading Map: test")
-            self.mapLoader.loadMap("test")
-        except Exception:
-            log.exception(f"Error while loading map: test")
-        
     @tryFunc
     def update(self, task):
         dt = globalClock.getDt()
