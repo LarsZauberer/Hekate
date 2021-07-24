@@ -24,7 +24,8 @@ class DynamicObject(GameObject):
         # ? Actor doesn't work
         # self.visNode = Actor(self.model, self.animations)
         
-        self._loadModel(model, self.node)
+        if len(self.animations.keys()) == 0:
+            self._loadModel(model, self.node)
         
         # Add update task to app
         self.app.taskMgr.add(self.update, f"{name}_update")

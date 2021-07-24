@@ -41,6 +41,11 @@ class MapLoader:
             # Delete Collisions
             self.app.createBulletWorld()
             
+            # Clean up actor if it exists
+            if hasattr(i, "actor"):
+                i.actor.cleanup()
+                i.actor.removeNode()
+            
             # Delete Visual Object
             i.node.removeNode()
             # Remove Loop
