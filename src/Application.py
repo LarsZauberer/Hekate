@@ -1,7 +1,8 @@
 from direct.showbase.ShowBase import ShowBase
 from rpcore import RenderPipeline
-from panda3d.core import load_prc_file_data, Vec3
-from panda3d.bullet import BulletWorld, BulletDebugNode
+from panda3d.core import load_prc_file_data, Vec3, Mat4
+from panda3d.bullet import BulletWorld
+from pandac.PandaModules import WindowProperties
 from pathlib import Path
 import logging
 from rich.logging import RichHandler
@@ -165,4 +166,11 @@ class Application(ShowBase):
         log = logging.getLogger(str(func.__qualname__))
         
         return log
+    
+    # Catch mouse
+    @tryFunc
+    def catchMouse(self, catch=True):
+        props = WindowProperties()
+        props.setCursorHidden(catch)
+        self.win.requestProperties(props)
         
