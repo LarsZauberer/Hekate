@@ -79,7 +79,8 @@ class SaveMapOperator(bpy.types.Operator):
             try:
                 objectData["id"] = i["id"]
             except Exception:
-                objectData["id"] = 0
+                print(f"WARNING: Object {i.name} has no ID, object won't be shown!")
+                continue
             
             datadata = {}
             datadata["x"] = i.location.x
