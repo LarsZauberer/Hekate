@@ -18,9 +18,9 @@ class App(Application):
         log.debug(f"Created Maploader")
         self.mapLoader.loadMap("test")
         
-        interfaces = {"main": {"id": 0, "file": "testInterface.json"}}
+        interfaces = {}
         self.interfaceManager = InterfaceManager(self, interfaces)
-        self.interfaceManager.load("main")
+        # self.interfaceManager.load("hud")
         
         # Other important stuff for your game
     
