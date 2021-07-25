@@ -10,14 +10,6 @@ Welcome to Hekate's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule::
-   :members:
-.. autoclass::
-   :members:
-   ..automethod::
-.. autoexceptions::
-.. autofunction::
-
 Indices and tables
 ==================
 
