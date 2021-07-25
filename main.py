@@ -1,6 +1,7 @@
 from src.Application import Application
 from src.functionDecorators import tryFunc
 from src.MapLoader import MapLoader
+from src.InterfaceManager import InterfaceManager
 from pathlib import Path
 
 class App(Application):
@@ -16,6 +17,10 @@ class App(Application):
         self.mapLoader = MapLoader(self, maps)
         log.debug(f"Created Maploader")
         self.mapLoader.loadMap("test")
+        
+        interfaces = {"main": {"id": 0, "file": "testInterface.json"}}
+        self.interfaceManager = InterfaceManager(self, interfaces)
+        self.interfaceManager.load("main")
         
         # Other important stuff for your game
     

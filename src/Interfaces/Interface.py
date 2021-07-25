@@ -21,11 +21,12 @@ class Interface:
             # TODO: Maybe children and parent system
             self.content.append(widgets[i["id"]](self.app, **i["data"]))
         
-        self.app.task_mgr.add_task(self.update, self.name + "_interface_update")
+        self.app.taskMgr.add(self.update, self.name + "_interface_update")
     
     @tryFunc        
     def unload(self):
-        pass
+        for i in self.content:
+            i.main.destroy()
     
     @tryFunc    
     def update(self, task):

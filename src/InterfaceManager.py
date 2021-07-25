@@ -21,7 +21,12 @@ class InterfaceManager:
         self.currentInterfaces.append(inter)
     
     def unload(self, name):
+        log = self.app.getLogger(self.unload)
+        log.debug(f"Unloading interface with name: {name}")
         for i in self.currentInterfaces:
             if i.name == name:
+                log.debug(f"Interface found -> Unloading")
                 i.unload()
+                return
+        log.warning(f"No interface loaded with this name")
     
