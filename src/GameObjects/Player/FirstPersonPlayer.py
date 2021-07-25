@@ -8,6 +8,12 @@ from src.functionDecorators import tryFunc
 class FirstPersonPlayer(DynamicObject):
     @tryFunc
     def __init__(self, app, x=-10, y=-10, z=5, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1):
+        """
+        __init__ A simple First Person Player
+
+        :param app: The main application
+        :type app: src.Application.Application
+        """
         # Character
         self.speed = 50
         self.jumpForce = 20
@@ -84,6 +90,12 @@ class FirstPersonPlayer(DynamicObject):
     
     @tryFunc
     def isGrounded(self):
+        """
+        isGrounded If the player is on ground
+
+        :return: If the player is on ground
+        :rtype: bool
+        """
         result = self.app.world.contactTest(self.node.node())
         for i in result.getContacts():
             if i.getNode1().getTag("ground") == "True":

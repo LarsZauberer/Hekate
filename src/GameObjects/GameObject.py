@@ -9,6 +9,42 @@ from src.functionDecorators import tryFunc
 class GameObject:
     @tryFunc
     def __init__(self, app, name="undefined", model="defaultMeshes/cube.bam", ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, overlapping=False, emission=False, animations={}):
+        """
+        __init__ A normal GameObject, which has no dynamic code
+
+        :param app: The main application
+        :type app: src.Application.Application
+        :param name: The name of the gameobject, defaults to "undefined"
+        :type name: str, optional
+        :param model: The model it should display. A .bam file, defaults to "defaultMeshes/cube.bam"
+        :type model: str, optional
+        :param ground: Should the gameobject have the tag ground. Maybe important for the player to know where to jump off, defaults to False
+        :type ground: bool, optional
+        :param x: position x, defaults to 0
+        :type x: float, optional
+        :param y: position y, defaults to 0
+        :type y: float, optional
+        :param z: position z, defaults to 0
+        :type z: float, optional
+        :param rx: roation x (Horizontal), defaults to 0
+        :type rx: float, optional
+        :param ry: rotation y (Pitch), defaults to 0
+        :type ry: float, optional
+        :param rz: rotation z (Roll), defaults to 0
+        :type rz: float, optional
+        :param sx: scale x, defaults to 1
+        :type sx: float, optional
+        :param sy: scale y, defaults to 1
+        :type sy: float, optional
+        :param sz: scale z, defaults to 1
+        :type sz: float, optional
+        :param mass: physical mass of the object. If it's 0, it has no rigidbody, defaults to 0
+        :type mass: int, optional
+        :param overlapping: Can you pass through the object?, defaults to False
+        :type overlapping: bool, optional
+        :param animations: Dictionary for all the animations. First animation has to be the model as .egg file. The key musst be called model, defaults to {}
+        :type animations: dict, optional
+        """
         # Importent saves
         self.app = app
         self.name = name
@@ -79,18 +115,35 @@ class GameObject:
     
     @tryFunc
     def transform(self, x, y, z, rx, ry, rz, sx, sy, sz):
+        """
+        transform Transforms the object
+        """
         self.node.setPosHprScale(x, y, z, rx, ry, rz, sx, sy, sz)
     
     @tryFunc
     def createShape(self, model):
+        """
+        createShape Creates the collision Shape of the object. Gets called in the __init__ function
+
+        :param model: The model it should display. A .bam file, defaults to "defaultMeshes/cube.bam"
+        :type model: str
+        :return: Collision shape
+        :rtype: BulletCollisionShape
+        """
         return self.convexHullShape(model)
     
     @tryFunc
     def simpleShape(self, *args):
+        """
+        simpleShape Just a box
+        """
         self.collisionShape = BulletBoxShape(Vec3(1, 1, 1))
     
     @tryFunc
     def convexHullShape(self, model):
+        """
+        convexHullShape Hull shape from the model
+        """
         if "defaultMeshes" in model:
             geomNodes = self.app.loader.loadModel(Path("src") / Path(model)).findAllMatches('**/+GeomNode')
         else:
@@ -103,6 +156,9 @@ class GameObject:
     
     @tryFunc
     def triangleShape(self, model):
+        """
+        triangleShape Exact shape from the model. Can't be used for moving objects.
+        """
         if "defaultMeshes" in model:
             geomNodes = self.app.loader.loadModel(Path("src") / Path(model)).findAllMatches('**/+GeomNode')
         else:

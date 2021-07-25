@@ -7,11 +7,25 @@ from src.GameObjects.Light import Light
 class MapLoader:
     @tryFunc
     def __init__(self, app, maps: dict):
+        """
+        __init__ The Maploader with all the maps
+
+        :param app: The main application
+        :type app: src.Application.Application
+        :param maps: All the maps with name and mapfile
+        :type maps: dict
+        """
         self.app = app
         self.maps = maps
     
     @tryFunc
     def loadMap(self, key):
+        """
+        loadMap Loades the map specified by key from the map dict
+
+        :param key: The name of the map
+        :type key: str
+        """
         log = self.app.getLogger(self.loadMap)
         self.unloadMap()
         with open(self.maps[key], "r") as f:
@@ -36,6 +50,9 @@ class MapLoader:
         
     @tryFunc
     def unloadMap(self):
+        """
+        unloadMap Unloads the current map
+        """
         log = self.app.getLogger(self.unloadMap)
         newRegistry = self.app.objectRegistry.copy()
         for i in self.app.objectRegistry:

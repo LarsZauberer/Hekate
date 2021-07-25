@@ -1,12 +1,29 @@
 from Content.interfaceRegistry import interfaces as interfaceIDs
 
 class InterfaceManager:
+    """
+     The Interface Manager. The class where all interfaces can be found and loaded with the Hekate Interface Framework.
+    """
     def __init__(self, app, interfaces):
+        """
+        __init__ Initializes the Interface Manager.
+
+        :param app: The main Application object.
+        :type app: src.Application.Application
+        :param interfaces: A dictionary of all interfaces
+        :type interfaces: dict
+        """
         self.app = app
         self.interfaces = interfaces
         self.currentInterfaces = []
     
     def load(self, name):
+        """
+        load Loads the specified interface from the in the initation defined dictionary
+
+        :param name: The name of the interface
+        :type name: str
+        """
         log = self.app.getLogger(self.load)
         if name in self.interfaces.keys():
             log.warning(f"Couldn't find {name} in list of interfaces")
@@ -21,6 +38,12 @@ class InterfaceManager:
         self.currentInterfaces.append(inter)
     
     def unload(self, name):
+        """
+        unload Unloads the specified interface.
+
+        :param name: The name of the interface to unload
+        :type name: str
+        """
         log = self.app.getLogger(self.unload)
         log.debug(f"Unloading interface with name: {name}")
         for i in self.currentInterfaces:

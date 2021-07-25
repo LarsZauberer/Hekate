@@ -59,6 +59,6 @@ class App(Application):
         super().update(task)
         return task.cont
         
-app = App("Test", True)
+app = App("Test", True, True)
 
 app.run()

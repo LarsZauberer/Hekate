@@ -9,6 +9,12 @@ from src.functionDecorators import tryFunc
 class Console:
     @tryFunc
     def __init__(self, app):
+        """
+        __init__ The developer Console
+
+        :param app: The main application
+        :type app: src.Application.Application
+        """
         self.app = app
         self.entry = None
         
@@ -43,6 +49,9 @@ class Console:
     
     @tryFunc
     def show_Console(self):
+        """
+        show_Console Shows the console
+        """
         log = self.app.getLogger(self.show_Console)
         # Show the console
         if self.entry is None:
@@ -63,6 +72,12 @@ class Console:
     
     @tryFunc
     def execute(self, cmd):
+        """
+        execute Executes the command
+
+        :param cmd: The command to execute
+        :type cmd: str
+        """
         log = self.app.getLogger(self.execute)
         cmd = cmd.lower()
         self.entry.destroy()
@@ -82,6 +97,14 @@ class Console:
 
     @tryFunc
     def getCommands(self, module):
+        """
+        getCommands Gets all the commands from a module
+
+        :param module: A module
+        :type module: python module
+        :return: list of command objects
+        :rtype: list of command objects
+        """
         cmds = []
         for _, obj in inspect.getmembers(module):
             if inspect.isclass(obj) and issubclass(obj, Command) and obj.__name__ != "Command":
@@ -94,6 +117,9 @@ class Console:
 
     @tryFunc
     def buildConsole(self):
+        """
+        buildConsole Design of the console
+        """
         self.frame = DirectFrame(frameColor=(200, 200, 200, 0.7),
                             frameSize=(-1, 1, -0.8, 0.8),
                             pos=(0, -1, 0))
@@ -104,18 +130,39 @@ class Console:
 
 
 class Command:
+    """
+     Main Command class
+    """
     @tryFunc
     def __init__(self, app):
+        """
+        __init__ Command class
+
+        :param app: The main application
+        :type app: src.Application.Application
+        """
         self.executor = ""
         self.app = app
     
     @tryFunc
     def execute(self, cmd):
+        """
+        execute If this command gets executed this will be called.
+
+        :param cmd: The rest of the command for parameters
+        :type cmd: str
+        """
         pass
 
 
 class ConsoleLogHandler(StreamHandler):
     def __init__(self, app):
+        """
+        __init__ Python log handler to make the logs appear in the ingame console.
+
+        :param app: The main application
+        :type app: src.Application.Application
+        """
         super().__init__()
         
         self.app = app

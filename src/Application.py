@@ -32,6 +32,12 @@ from src.MapLoader import MapLoader
 from src.functionDecorators import tryFunc
 
 class Application(ShowBase):
+    """
+    Application: The main game class. Storing everything from world, interface, developer console, etc.
+
+    :param ShowBase: The base class for Panda3D.
+    :type ShowBase: panda3d.core.ShowBase
+    """
     
     def __init__(self, prcName, debug=False, forceDisableRenderPipelineDebug=True):
         # The main game class. Storing everything from world to models
@@ -128,6 +134,11 @@ class Application(ShowBase):
         
     @tryFunc
     def update(self, task):
+        """
+        update The main loop for the whole game.
+
+        :param task: Task object from the task manager.
+        """
         dt = globalClock.getDt()
         if self.doPhysics:
             # TODO: Numbers from CPU power
@@ -137,11 +148,22 @@ class Application(ShowBase):
     
     @tryFunc
     def createBulletWorld(self):
+        """
+        createBulletWorld Creates the Bullet Physics world.
+        """
         self.world = BulletWorld()
         self.world.setGravity(Vec3(0, 0, -9.81))
     
     # Generates logging object to log to python console and a file
     def getLogger(self, func):
+        """
+        getLogger Creates a python logging object with the name of the function.
+
+        :param func: The function that is being logged.
+        :type func: function
+        :return: The python logger.
+        :rtype: logging.Logger
+        """
         log = logging.getLogger(str(func.__qualname__))
         
         return log
@@ -149,10 +171,22 @@ class Application(ShowBase):
     # Catch mouse
     @tryFunc
     def catchMouse(self, catch=True):
+        """
+        catchMouse Catches the mouse in the window.
+
+        :param catch: Should the mouse be catched or not, defaults to True
+        :type catch: bool, optional
+        """
         props = WindowProperties()
         props.setCursorHidden(catch)
         self.win.requestProperties(props)
     
     @tryFunc
     def keybinds(self, disable=False):
+        """
+        keybinds Binds the keybinds for the game. It should be overwritten in a child class to assign the keybinds
+
+        :param disable: Should all keybinds be disabled or not. This is important for the console to don't execute keybinds while writing commands, defaults to False
+        :type disable: bool, optional
+        """
         pass

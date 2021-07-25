@@ -5,6 +5,12 @@ from src.functionDecorators import tryFunc
 class DynamicObject(GameObject):
     @tryFunc
     def __init__(self, app, name="undefined", model="defaultMeshes/cube.bam", ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, animations={}, emission=False, overlapping=False):
+        """
+        __init__ An DynamicObject is a GameObject that can have code.
+
+        :param emission: If it has lights that should be moved according to the object movement, defaults to False
+        :type emission: bool, optional
+        """
         self.app = app
         self.name = name
         self.animations = animations
@@ -33,6 +39,9 @@ class DynamicObject(GameObject):
     
     @tryFunc
     def update(self, task):
+        """
+        update Update function for the dynamic object. Please execute super().__init__(task) on it.
+        """
         self._handleCollision()
         if self.emission:
             self._updateEmissionLights()
@@ -40,14 +49,32 @@ class DynamicObject(GameObject):
     
     @tryFunc
     def onCollisionEnter(self, otherGameObject):
+        """
+        onCollisionEnter On collision of an other object entered
+
+        :param otherGameObject: the other GameObject
+        :type otherGameObject: panda3d.core.NodePath
+        """
         pass
     
     @tryFunc
     def onCollisionStay(self, otherGameObject):
+        """
+        onCollisionStay On collision of an other object still happening
+
+        :param otherGameObject: the other GameObject
+        :type otherGameObject: panda3d.core.NodePath
+        """
         pass
     
     @tryFunc
     def onCollisionExit(self, otherGameObject):
+        """
+        onCollisionExit On collision of an other object stopped
+
+        :param otherGameObject: the other GameObject
+        :type otherGameObject: panda3d.core.NodePath
+        """
         pass
     
     @tryFunc
