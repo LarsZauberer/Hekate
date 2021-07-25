@@ -12,12 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
-''' sys.path.insert(0, os.path.abspath('./src'))
-sys.path.insert(0, os.path.abspath('./src/GameObjects'))
-sys.path.insert(0, os.path.abspath('./src/GameObjects/Player'))
-sys.path.insert(0, os.path.abspath('./src/Interfaces'))
-sys.path.insert(0, os.path.abspath('./src/Widgets')) '''
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
@@ -36,7 +31,7 @@ release = 'Alpha 1.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc"
+    "sphinx.ext.autodoc",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
