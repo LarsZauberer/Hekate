@@ -3,6 +3,8 @@ import json
 
 class MyProperties(bpy.types.PropertyGroup):
     id: bpy.props.IntProperty(name="ID")
+    mass: bpy.props.IntProperty(name="mass")
+    emission: bpy.props.BoolProperty(name="emission")
     mapDir: bpy.props.StringProperty(
         name = "",
         description="Choose a directory:",
@@ -31,6 +33,8 @@ class Hekate(bpy.types.Panel):
         # Save ID for objects
         layout.label(text="Save Object ID")
         layout.prop(mytool, "id", text="Class ID")
+        layout.prop(mytool, "mass", text="Mass")
+        layout.prop(mytool, "emission", text="Emission")
         
         row = layout.row()
         row.operator("hekate.save_id")
@@ -55,6 +59,9 @@ class SaveOperator(bpy.types.Operator):
     def execute(self, context):
         print(context.scene.my_tool.id)
         context.active_object["id"] = context.scene.my_tool.id
+        context.active_object["emission"] = context.scene.my_tool.emission
+        if context.scene.my_tool.mass >= 0:
+            context.active_object["mass"] = context.scene.my_tool.mass
         return {"FINISHED"}
 
 class SaveMapOperator(bpy.types.Operator):
@@ -104,6 +111,20 @@ class SaveMapOperator(bpy.types.Operator):
                 datadata["mass"] = i["mass"]
             except Exception:
                 pass
+            
+            # emission
+            try:
+                datadata["emission"] = i["emission"]
+            except Exception:
+                pass
+            
+            
+            if "Light" in i.name:
+                datadata["color_x"] = i.data.color.x
+                datadata["color_y"] = i.data.color.y
+                datadata["color_z"] = i.data.color.z
+                datadata["energy"] = i.data.energy
+                
             
             # Assemble
             objectData["data"] = datadata
