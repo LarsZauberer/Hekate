@@ -18,6 +18,7 @@ class App(Application):
         log.debug(f"Created Maploader")
         self.mapLoader.loadMap("test")
         
+        # Interface Management
         interfaces = {}
         self.interfaceManager = InterfaceManager(self, interfaces)
         # self.interfaceManager.load("hud")
