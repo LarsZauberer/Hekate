@@ -8,7 +8,7 @@ from src.functionDecorators import tryFunc
 
 class GameObject:
     @tryFunc
-    def __init__(self, app, name="undefined", model="defaultMeshes/cube.bam", ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, overlapping=False, animations={}):
+    def __init__(self, app, name="undefined", model="defaultMeshes/cube.bam", ground=False, x=0, y=0, z=0, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1, mass=0, overlapping=False, emission=False, animations={}):
         # Importent saves
         self.app = app
         self.name = name

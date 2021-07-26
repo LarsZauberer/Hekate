@@ -1,10 +1,12 @@
 import bpy
 import json
+import math
 
 class MyProperties(bpy.types.PropertyGroup):
     id: bpy.props.IntProperty(name="ID")
     mass: bpy.props.IntProperty(name="mass")
     emission: bpy.props.BoolProperty(name="emission")
+    ground: bpy.props.BoolProperty(name="ground")
     mapDir: bpy.props.StringProperty(
         name = "",
         description="Choose a directory:",
@@ -35,6 +37,7 @@ class Hekate(bpy.types.Panel):
         layout.prop(mytool, "id", text="Class ID")
         layout.prop(mytool, "mass", text="Mass")
         layout.prop(mytool, "emission", text="Emission")
+        layout.prop(mytool, "ground", text="Ground")
         
         row = layout.row()
         row.operator("hekate.save_id")
@@ -60,6 +63,7 @@ class SaveOperator(bpy.types.Operator):
         print(context.scene.my_tool.id)
         context.active_object["id"] = context.scene.my_tool.id
         context.active_object["emission"] = context.scene.my_tool.emission
+        context.active_object["ground"] = context.scene.my_tool.ground
         if context.scene.my_tool.mass >= 0:
             context.active_object["mass"] = context.scene.my_tool.mass
         return {"FINISHED"}
@@ -86,16 +90,16 @@ class SaveMapOperator(bpy.types.Operator):
             try:
                 objectData["id"] = i["id"]
             except Exception:
-                print(f"WARNING: Object {i.name} has no ID, object won't be shown!")
-                continue
+                objectData["id"] = 0
             
             datadata = {}
             datadata["x"] = i.location.x
             datadata["y"] = i.location.y
             datadata["z"] = i.location.z
-            datadata["rx"] = i.rotation_euler.z # h rotation around z axis
-            datadata["ry"] = i.rotation_euler.x # p rotation around x axis
-            datadata["rz"] = i.rotation_euler.y # r rotation around y axis
+            rot = i.rotation_euler
+            datadata["rx"] = rot.z * (180/math.pi) # h rotation around z axis
+            datadata["ry"] = rot.x * (180/math.pi) # p rotation around x axis
+            datadata["rz"] = rot.y * (180/math.pi) # r rotation around y axis
             datadata["sx"] = i.scale.x
             datadata["sy"] = i.scale.y
             datadata["sz"] = i.scale.z
@@ -108,13 +112,22 @@ class SaveMapOperator(bpy.types.Operator):
             
             # Mass
             try:
-                datadata["mass"] = i["mass"]
+                if i["mass"] != 0:
+                    datadata["mass"] = i["mass"]
             except Exception:
                 pass
             
             # emission
             try:
-                datadata["emission"] = i["emission"]
+                if i["emission"] == True:
+                    datadata["emission"] = True
+            except Exception:
+                pass
+            
+            # emission
+            try:
+                if i["ground"] == True:
+                    datadata["ground"] = True
             except Exception:
                 pass
             

@@ -12,7 +12,7 @@ class FirstPersonPlayer(DynamicObject):
         self.speed = 50
         self.preJumpSpeed = Vec3(0, 0, 0)
 
-        super().__init__(app, name="Player", x=-10, y=-10, z=14, mass=10, model="Block.bam")
+        super().__init__(app, name="Player", x=-10, y=-10, z=5, mass=10, model="defaultMeshes/cube.bam")
     
     @tryFunc
     def update(self, task):
