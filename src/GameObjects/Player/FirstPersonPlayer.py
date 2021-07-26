@@ -7,12 +7,12 @@ from src.functionDecorators import tryFunc
 
 class FirstPersonPlayer(DynamicObject):
     @tryFunc
-    def __init__(self, app):
+    def __init__(self, app, x=-10, y=-10, z=5, rx=0, ry=0, rz=0, sx=1, sy=1, sz=1):
         # Character
         self.speed = 50
         self.preJumpSpeed = Vec3(0, 0, 0)
 
-        super().__init__(app, name="Player", x=-10, y=-10, z=5, mass=10, model="defaultMeshes/cube.bam")
+        super().__init__(app, name="Player", x=x, y=y, z=z, rx=rx, ry=ry, rz=rz, sx=sx, sy=sy, sz=sz, mass=10, model="defaultMeshes/cube.bam")
     
     @tryFunc
     def update(self, task):
