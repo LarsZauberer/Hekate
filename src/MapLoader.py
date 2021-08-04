@@ -29,9 +29,10 @@ class MapLoader:
             classes[i["id"]](self.app, **i["data"])
         log.debug(f"Successfully loaded objects from file")
         
-        # TODO: Spawn Player from mapData
-        self.app.player = FirstPersonPlayer(self.app)
-        log.debug(f"Successfully created player object")
+        for i in self.app.objectRegistry:
+            if i.name == "Player":
+                log.debug(f"Player found and assigned to app")
+                self.app.player = i
         
     @tryFunc
     def unloadMap(self):
