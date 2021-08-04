@@ -131,7 +131,7 @@ class Application(ShowBase):
         dt = globalClock.getDt()
         if self.doPhysics:
             # TODO: Numbers from CPU power
-            self.world.doPhysics(dt, 500, 1.0/180.0)
+            self.world.doPhysics(dt, 500, 1.0/1000.0)
         
         return task.cont
     
