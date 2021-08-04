@@ -8,10 +8,9 @@ Note: Python 3.8+ is currently unsupported because panda3d has problems packagin
 We hope this will be fixed soon. Other features may work.
 
 1. Download the latest release
-   [here](https://github.com/LarsZauberer/Hekate/releases) or take the src,
-   content and `requirements.txt` folder from the repository
+   [here](https://github.com/LarsZauberer/Hekate/releases)
 
-2. Put the src and content folder into your new project folder.
+2. Put the content of the `.zip` file into your project folder
 
 3. Run ```pip install -r requirements.txt```
 
