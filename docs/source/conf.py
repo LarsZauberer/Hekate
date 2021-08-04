@@ -12,8 +12,12 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath("..\..\src"))
-sys.path.insert(0, os.path.abspath("..\.."))
+sys.path.insert(0, os.path.abspath("../../src"))
+sys.path.insert(0, os.path.abspath("../../src/Widgets"))
+sys.path.insert(0, os.path.abspath("../../src/Interfaces"))
+sys.path.insert(0, os.path.abspath("../../src/GameObjects"))
+sys.path.insert(0, os.path.abspath("../../src/GameObjects/Player"))
+sys.path.insert(0, os.path.abspath("../.."))
 
 
 # -- Project information -----------------------------------------------------
