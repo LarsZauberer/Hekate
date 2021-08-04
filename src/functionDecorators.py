@@ -1,4 +1,5 @@
 import logging
+import time
 from functools import wraps
 
 def tryFunc(originalFunction):
@@ -11,7 +12,11 @@ def tryFunc(originalFunction):
     def wrapperFunction(*args, **kwargs):
         log = logging.getLogger(str(originalFunction.__qualname__))
         try:
-            return originalFunction(*args, **kwargs)
+            start_time = time.time()
+            result = originalFunction(*args, **kwargs)
+            if time.time() - start_time > 5:
+                log.warning(f"Function {str(originalFunction.__qualname__)} took longer than expected. Time took: {time.time() - start_time}")
+            return result
         except Exception:
             log.exception(f"Error while executing function {str(originalFunction.__qualname__)}")
             exit("Error while Executing -> Exit with failure")
