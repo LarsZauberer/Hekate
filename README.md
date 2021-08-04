@@ -4,6 +4,9 @@
 # Installation
 Tested with: Python 3.7.9
 
+Note: Python 3.8+ is currently unsupported because panda3d has problems packaging the game to an exe with that version.
+We hope this will be fixed soon. Other features may work.
+
 1. Download the latest release
    [here](https://github.com/LarsZauberer/Hekate/releases) or take the src,
    content and `requirements.txt` folder from the repository
