@@ -9,6 +9,7 @@ class DynamicObject(GameObject):
         self.name = name
         self.animations = animations
         self.overlapping = overlapping
+        self.ignoreCollisionTriggerNames = []
         
         self.lights = []
         self.emission = emission
@@ -60,7 +61,7 @@ class DynamicObject(GameObject):
         
         for contact in result.getContacts():
             # Check if touching for the first time
-            if contact.getNode1() not in self.touching:
+            if contact.getNode1() not in self.touching and not self._shouldIgnoreCollision(contact.getNode1()):
                 self.onCollisionEnter(contact.getNode1())
                 newTouching.append(contact.getNode1())
             thisTimeTouching.append(contact.getNode1())
@@ -98,3 +99,10 @@ class DynamicObject(GameObject):
             # Relative Light Vector to the parent object
             lightRelVec = nodeLights[self.lights.index(i)].getPos()
             i.pos = self.app.render.getRelativeVector(self.node, lightRelVec) + self.node.getPos()
+    
+    @tryFunc
+    def _shouldIgnoreCollision(self, node):
+        for i in self.ignoreCollisionTriggerNames:
+            if i in node.name:
+                return True
+        return False
