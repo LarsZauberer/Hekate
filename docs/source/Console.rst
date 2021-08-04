@@ -1,7 +1,7 @@
-setup module
-============
+Console module
+==============
 
-.. automodule:: setup
+.. automodule:: Console
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,7 +1,7 @@
-blendHekate module
+Application module
 ==================
 
-.. automodule:: blendHekate
+.. automodule:: Application
    :members:
    :undoc-members:
    :show-inheritance:
