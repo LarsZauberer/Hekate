@@ -46,13 +46,17 @@ class GameObject:
         :type animations: dict, optional
         """
         # Importent saves
-        self.app = app
-        self.name = name
-        self.animations = animations
-        self.overlapping = overlapping
+        self.app = app #: The main application
+        self.name = name #: The name of the object
+        self.animations = animations #: Animations
+        self.overlapping = overlapping #: Should the object be overlapping (cannot be changed while running)
         
         # Emission Lights
-        self.lights = []
+        self.lights = [] #: Emission lights attached to the object
+        
+        # Variables for API Reference
+        self.model = None #: The model path
+        self.node = None #: The main node which displays the object. You can get the physical node by self.node.node()
         
         self.createShape(model)
         self._createMainNode(mass)
