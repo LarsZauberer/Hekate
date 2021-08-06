@@ -11,17 +11,21 @@ class DynamicObject(GameObject):
         :param emission: If it has lights that should be moved according to the object movement, defaults to False
         :type emission: bool, optional
         """
-        self.app = app
-        self.name = name
-        self.animations = animations
-        self.overlapping = overlapping
+        self.app = app #: The main application object
+        self.name = name #: The name of the object
+        self.animations = animations #: The animation of the object
+        self.overlapping = overlapping #: Should the object be overlapping with other objects? Cannot be changed while running
         
-        self.lights = []
-        self.emission = emission
+        self.lights = [] #: The lights attached to the object
+        self.emission = emission #: If the object has lights that should be moved according to the object movement, defaults to False
         
         # Collision
-        self.touching = []
-        self.ignoreCollisionTriggerNames = []
+        self.touching = [] #: The objects that are touching the object. (BulletNodes)
+        self.ignoreCollisionTriggerNames = [] #: Name patterns which should be ignored at the collision detection
+        
+        # Variables for API Reference
+        self.node = None #: The main node which displays the object. You can get the physical node by self.node.node()
+        self.model = None #: The model path
         
         self.createShape(model)
         self._createMainNode(mass)
