@@ -181,6 +181,18 @@
 <dt class="sig sig-object py" id="GameObject.GameObject">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">GameObject.</span></span><span class="sig-name descname"><span class="pre">GameObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'undefined'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'defaultMeshes/cube.bam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ground</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GameObject.GameObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GameObject.GameObject.animations">
+<span class="sig-name descname"><span class="pre">animations</span></span><a class="headerlink" href="#GameObject.GameObject.animations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Animations</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GameObject.GameObject.app">
+<span class="sig-name descname"><span class="pre">app</span></span><a class="headerlink" href="#GameObject.GameObject.app" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main application</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="GameObject.GameObject.convexHullShape">
 <span class="sig-name descname"><span class="pre">convexHullShape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GameObject.GameObject.convexHullShape" title="Permalink to this definition">¶</a></dt>
@@ -202,6 +214,36 @@
 <dd class="field-odd"><p>BulletCollisionShape</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GameObject.GameObject.lights">
+<span class="sig-name descname"><span class="pre">lights</span></span><a class="headerlink" href="#GameObject.GameObject.lights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emission lights attached to the object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GameObject.GameObject.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#GameObject.GameObject.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model path</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GameObject.GameObject.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#GameObject.GameObject.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GameObject.GameObject.node">
+<span class="sig-name descname"><span class="pre">node</span></span><a class="headerlink" href="#GameObject.GameObject.node" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main node which displays the object. You can get the physical node by self.node.node()</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GameObject.GameObject.overlapping">
+<span class="sig-name descname"><span class="pre">overlapping</span></span><a class="headerlink" href="#GameObject.GameObject.overlapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Should the object be overlapping (cannot be changed while running)</p>
 </dd></dl>
 
 <dl class="py method">

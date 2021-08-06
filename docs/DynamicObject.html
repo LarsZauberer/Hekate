@@ -181,6 +181,18 @@
 <dt class="sig sig-object py" id="DynamicObject.DynamicObject">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">DynamicObject.</span></span><span class="sig-name descname"><span class="pre">DynamicObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'undefined'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'defaultMeshes/cube.bam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ground</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DynamicObject.DynamicObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">src.GameObjects.GameObject.GameObject</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.animations">
+<span class="sig-name descname"><span class="pre">animations</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.animations" title="Permalink to this definition">¶</a></dt>
+<dd><p>The animation of the object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.app">
+<span class="sig-name descname"><span class="pre">app</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.app" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main application object</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="DynamicObject.DynamicObject.createShape">
 <span class="sig-name descname"><span class="pre">createShape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DynamicObject.DynamicObject.createShape" title="Permalink to this definition">¶</a></dt>
@@ -196,6 +208,42 @@
 <dd class="field-odd"><p>BulletCollisionShape</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.emission">
+<span class="sig-name descname"><span class="pre">emission</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.emission" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the object has lights that should be moved according to the object movement, defaults to False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.ignoreCollisionTriggerNames">
+<span class="sig-name descname"><span class="pre">ignoreCollisionTriggerNames</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.ignoreCollisionTriggerNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name patterns which should be ignored at the collision detection</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.lights">
+<span class="sig-name descname"><span class="pre">lights</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.lights" title="Permalink to this definition">¶</a></dt>
+<dd><p>The lights attached to the object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model path</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.node">
+<span class="sig-name descname"><span class="pre">node</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.node" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main node which displays the object. You can get the physical node by self.node.node()</p>
 </dd></dl>
 
 <dl class="py method">
@@ -229,6 +277,18 @@
 <dd class="field-odd"><p><strong>otherGameObject</strong> (<em>panda3d.core.NodePath</em>) – the other GameObject</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.overlapping">
+<span class="sig-name descname"><span class="pre">overlapping</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.overlapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Should the object be overlapping with other objects? Cannot be changed while running</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DynamicObject.DynamicObject.touching">
+<span class="sig-name descname"><span class="pre">touching</span></span><a class="headerlink" href="#DynamicObject.DynamicObject.touching" title="Permalink to this definition">¶</a></dt>
+<dd><p>The objects that are touching the object. (BulletNodes)</p>
 </dd></dl>
 
 <dl class="py method">
