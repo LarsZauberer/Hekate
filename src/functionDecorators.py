@@ -5,8 +5,7 @@ from functools import wraps
 def tryFunc(originalFunction):
     """Creates a wrapper function that executes every function with a try
     statement.
-    Args: originalFunction (function): The function it should execute in the try
-        statement.
+    Args: originalFunction (function): The function it should execute in the try statement.
     """
     @wraps(originalFunction)
     def wrapperFunction(*args, **kwargs):
