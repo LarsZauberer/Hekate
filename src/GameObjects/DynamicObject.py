@@ -15,13 +15,13 @@ class DynamicObject(GameObject):
         self.name = name
         self.animations = animations
         self.overlapping = overlapping
-        self.ignoreCollisionTriggerNames = []
         
         self.lights = []
         self.emission = emission
         
         # Collision
         self.touching = []
+        self.ignoreCollisionTriggerNames = []
         
         self.createShape(model)
         self._createMainNode(mass)
